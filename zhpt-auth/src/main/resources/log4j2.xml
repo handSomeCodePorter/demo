@@ -23,6 +23,10 @@
 			<ThresholdFilter level="info"/>
 		</console>
 
+        <WebSocketAppender name="webSocketLog" level="info">
+
+        </WebSocketAppender>
+
 		<!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，适合临时测试用-->
 		<!--<File name="Filelog" fileName="${FILE_PATH}/zhpt.log" append="false">
 			<PatternLayout pattern="${LOG_PATTERN}"/>
@@ -74,6 +78,7 @@
 		</RollingFile>
 -->
 
+
 	</appenders>
 
 	<!--Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。-->
@@ -90,10 +95,32 @@
 			<AppenderRef ref="Console"/>
 		</Logger>
 
+
+		<logger name="java.sql">
+			<level value="DEBUG"></level>
+		</logger>
+		<logger name="java.sql.Connection">
+			<level value="DEBUG"></level>
+		</logger>
+		<logger name="java.sql.Statement">
+			<level value="DEBUG"></level>
+		</logger>
+		<logger name="java.sql.PreparedStatement">
+			<level value="DEBUG"></level>
+		</logger>
+		<logger name="java.sql.ResultSet">
+			<level value="DEBUG"></level>
+		</logger>
+		<logger name="com.cloud.zhpt.Dao">
+			<level value="DEBUG"></level>
+		</logger>
+
 		<root level="info">
 			<appender-ref ref="Console"/>
+            <appender-ref ref="webSocketLog"/>
 		<!--	<appender-ref ref="Filelog"/>-->
 			<appender-ref ref="RollingFileInfo"/>
+
 		<!--	<appender-ref ref="RollingFileWarn"/>
 			<appender-ref ref="RollingFileError"/>-->
 		</root>

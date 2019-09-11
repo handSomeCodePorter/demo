@@ -1,6 +1,11 @@
 spring:
   application:
     name: zhpt-auth
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: zhpt
 
 server:
   port: 8080
@@ -19,15 +24,23 @@ eureka:
 zhpt:
     cloud:
       resources:
-        locations: jdbc.properties
+        jdbc:
+          locations: jdbc.properties
+        redis:
+          locations: redis.properties
+
 
 mybatis:
   config-location: classpath:mybatis.cfg.xml
-  type-aliases-package: com.cloud.sw.entity
-  mapper-locations: /**/mapper/*.xml
+  type-aliases-package: com.cloud.zhpt.entity
+  mapper-locations: classpath*:com/cloud/zhpt/Dao/mapper/*.xml
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
   config: classpath:log4j2.xml
+
+
+
 
 
 

@@ -1,14 +1,14 @@
 /*
 *
 * User.java
-* Copyright(C) 2017-2020 fendo公司
 * @date 2019-09-08
 */
 package com.cloud.zhpt.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     /**
      * ID
      */
@@ -123,6 +123,18 @@ public class User {
      * 最后弹出岗位风险时间
      */
     private Date lastRiskTime;
+
+
+    ////////////////////////////////////////////////////////////////////
+
+    /**
+     * 部门名称
+     */
+    private String organName;
+
+
+
+
 
     /**
      * ID
@@ -490,5 +502,13 @@ public class User {
      */
     public void setLastRiskTime(Date lastRiskTime) {
         this.lastRiskTime = lastRiskTime;
+    }
+
+    public String getOrganName() {
+        return organName;
+    }
+
+    public void setOrganName(String organName) {
+        this.organName = organName;
     }
 }
