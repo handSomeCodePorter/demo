@@ -1,6 +1,6 @@
 package com.cloud.zhpt.warper;
 
-import com.cloud.zhpt.Notification;
+import com.cloud.zhpt.HttpResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -35,25 +35,25 @@ public class WebSocketServer {
     private String sid="";
 
     @OnOpen
-    public Notification onOpen(Session session, @PathParam("sid") String sid) {
+    public HttpResult onOpen(Session session, @PathParam("sid") String sid) {
         this.session = session;
         webSocketSet.add(this);   //加入set中
         //在线认数+1
         WebSocketServer.addOnlineCount();
         logger.info("【websocket】开始监听窗口:"+sid+",当前在线人数为" + getOnlineCount());
         this.sid = sid;
-        return new Notification(Notification.SUCCESS,"连接成功…");
+        return new HttpResult(HttpResult.SUCCESS,"连接成功…");
     }
 
     /**
      * 连接关闭调用的方法
      */
     @OnClose
-    public Notification onClose() {
+    public HttpResult onClose() {
         webSocketSet.remove(this);  //从set中删除
         subOnlineCount(); //在线数减1
         logger.info("【websocket】连接："+sid+"关闭，当前在线人数为" + getOnlineCount());
-        return new Notification(Notification.SUCCESS, "连接：【"+sid + "】已关闭…");
+        return new HttpResult(HttpResult.SUCCESS, "连接：【"+sid + "】已关闭…");
     }
 
     /**

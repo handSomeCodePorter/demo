@@ -8,8 +8,8 @@ import java.io.Serializable;
  * @Author SW
  * @Date 2019/8/30 21:30
  **/
-public class Notification<T> implements Serializable {
-    public static final String SUCCESS = "SUCCESS";
+public class HttpResult<T> implements Serializable {
+    public static final String SUCCESS = "success";
     public static final String FAILED = "failed";
 
     private String status;
@@ -18,18 +18,18 @@ public class Notification<T> implements Serializable {
 
     private String Msg;
 
-    public Notification(String status, T data, String msg) {
+    public HttpResult(String status, T data, String msg) {
         this.status = status;
         this.data = data;
         Msg = msg;
     }
 
-    public Notification(String status, String msg) {
+    public HttpResult(String status, String msg) {
         this.status = status;
         Msg = msg;
     }
 
-    public Notification(String status, T data) {
+    public HttpResult(String status, T data) {
         this.status = status;
         this.data = data;
     }
@@ -62,7 +62,7 @@ public class Notification<T> implements Serializable {
 
     @Override
     public String toString() {
-        return "Notification{" +
+        return "HttpResult{" +
                 "status='" + status + '\'' +
                 ", data=" + data +
                 ", Msg='" + Msg + '\'' +

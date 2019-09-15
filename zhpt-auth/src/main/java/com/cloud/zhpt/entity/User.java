@@ -133,7 +133,10 @@ public class User implements Serializable {
     private String organName;
 
 
-
+    /**
+     * sessionId
+     */
+    private String sid;
 
 
     /**

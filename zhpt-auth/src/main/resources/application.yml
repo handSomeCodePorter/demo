@@ -7,6 +7,9 @@ spring:
       flush-mode: on_save
       namespace: zhpt
 
+  cloud:
+    cros:
+      allow-origin: 127.0.0.1,localhost
 server:
   port: 8080
 
@@ -38,6 +41,8 @@ mybatis:
 
 logging:
   config: classpath:log4j2.xml
+
+
 
 
 
