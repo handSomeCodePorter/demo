@@ -1,6 +1,6 @@
 spring:
   application:
-    name: zhpt-auth
+    name: zhpt-service
   session:
     store-type: redis
     redis:

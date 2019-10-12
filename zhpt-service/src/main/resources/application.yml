@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: zhpt-service
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: zhpt
+
+  cloud:
+    cros:
+      allow-origin: 127.0.0.1,localhost
+server:
+  port: 8080
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://192.168.2.3:8101/eureka
+
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+zhpt:
+    cloud:
+      resources:
+        jdbc:
+          locations: jdbc.properties
+        redis:
+          locations: redis.properties
+
+
+mybatis:
+  config-location: classpath:mybatis.cfg.xml
+  type-aliases-package: com.cloud.zhpt.entity
+  mapper-locations: classpath*:com/cloud/zhpt/Dao/mapper/*.xml
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  config: classpath:log4j2.xml
+
+
+
+
+
+
+
+

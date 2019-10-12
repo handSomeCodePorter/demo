@@ -43,6 +43,7 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //游客，开发权限
         filterChainDefinitionMap.put("/welcome/**", "anon");
+
         //游客，开发权限
         filterChainDefinitionMap.put("/getImgCode/**", "anon");
         //websocket 开放权限

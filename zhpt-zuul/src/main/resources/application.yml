@@ -1,9 +1,9 @@
 spring:
   application:
-    name: zhpt-auth
+    name: zhpt-zuul
 
 server:
-  port: 8080
+  port: 8081
 
 eureka:
   client:
@@ -16,18 +16,13 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
     prefer-ip-address: true
 
-zhpt:
-    cloud:
-      resources:
-        locations: jdbc.properties
+zuul:
+  routes:
+    provider-product:
+      path: /*
+      serviceId: zhpt-service
+      stripPrefix: false  #去除path中的前缀 zhpt-service
 
-mybatis:
-  config-location: classpath:mybatis.cfg.xml
-  type-aliases-package: com.cloud.sw.entity
-  mapper-locations: /**/mapper/*.xml
 
 logging:
   config: classpath:log4j2.xml
-
-
-

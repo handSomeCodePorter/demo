@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * @ClassName Auth
@@ -22,10 +21,10 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableEurekaClient
 @EnableCaching
 @SpringBootApplication
-public class Auth {
-    private static  Logger logger = LoggerFactory.getLogger(Auth.class);
+public class ZhptService {
+    private static Logger logger = LoggerFactory.getLogger(ZhptService.class);
     public static void main(String[] args) {
-        SpringApplication.run(Auth.class);
+        SpringApplication.run(ZhptService.class);
     }
 
 }
