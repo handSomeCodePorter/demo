@@ -37,12 +37,15 @@ public class ShiroConfig {
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setLoginUrl("/login");
+
         // 设置无权限时跳转的 url;
         shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
         // 设置拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //游客，开发权限
         filterChainDefinitionMap.put("/welcome/**", "anon");
+        //游客，开发权限
+        filterChainDefinitionMap.put("/loginWithRememberMe/**", "anon");
 
         //游客，开发权限
         filterChainDefinitionMap.put("/getImgCode/**", "anon");
@@ -99,7 +102,7 @@ public class ShiroConfig {
         //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //如果httyOnly设置为true，则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；
-        simpleCookie.setHttpOnly(true);
+        simpleCookie.setHttpOnly(false);
         //记住我cookie生效时间,单位是秒
         simpleCookie.setMaxAge(60*60*24*30);
         return simpleCookie;

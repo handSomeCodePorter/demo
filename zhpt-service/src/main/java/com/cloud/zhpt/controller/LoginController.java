@@ -2,10 +2,17 @@ package com.cloud.zhpt.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.cloud.zhpt.Const.EncryptKeyConst;
 import com.cloud.zhpt.Const.SessionKeyConst;
 import com.cloud.zhpt.HttpResult;
 import com.cloud.zhpt.Service.UserService;
 import com.cloud.zhpt.Utils.IPUtils;
+import com.cloud.zhpt.config.Shiro.RememberManager;
+import com.cloud.zhpt.dto.UserDto;
 import com.cloud.zhpt.entity.User;
 import com.cloud.zhpt.warper.WebSocketServer;
 import org.apache.shiro.SecurityUtils;
@@ -13,7 +20,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +30,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Date;
 
 /**
@@ -34,7 +45,7 @@ import java.util.Date;
 public class LoginController {
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    private  String validateCode;
+    private String validateCode;
     /**
      * 保存登录账号的COOKIE名称
      */
@@ -48,36 +59,77 @@ public class LoginController {
 
     private final int SESSION_MAX_AGE = 60 * 5;
 
+    /**
+     * user 加解密key
+     */
+    private String SECRET_ID;
+
+
+    {
+        long i1 = Long.valueOf(EncryptKeyConst.USER_ENCRYPT_KEY, 16);
+        SECRET_ID = String.format("%016x", i1);
+    }
+
     @Autowired
     UserService userService;
 
     @Autowired
     WebSocketServer webSocketServer;
 
+    @Value("${login.captcha}")
+    private boolean logincaptcha;
+
+
     @PostMapping("/login")
-    public HttpResult Login(String userName, String password,String captcha, boolean rememberMe, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if(!StringUtils.hasText(captcha)){
-          return new HttpResult(HttpResult.FAILED,"验证码不能为空……");
-        };
-        HttpSession session = request.getSession();
-        if(!captcha.equals(validateCode)){
-            return new HttpResult(HttpResult.FAILED,"验证码错误……");
+    public HttpResult Login(HttpServletRequest request, HttpServletResponse response, String userName, String password, String captcha, boolean rememberMe) throws Exception {
+        if (logincaptcha) {
+            if (!StringUtils.hasText(captcha)) {
+                return new HttpResult(HttpResult.FAILED, "验证码不能为空……");
+            }
+            ;
+            if (!captcha.equals(validateCode)) {
+                return new HttpResult(HttpResult.FAILED, "验证码错误……");
+            }
         }
+        HttpSession session = request.getSession();
         String passwordMD5 = password;
         UsernamePasswordToken token = new UsernamePasswordToken(userName, passwordMD5);
+        Subject subject = SecurityUtils.getSubject();
+        // 执行验证
+        subject.login(token);
+        // 将用户信息保存到session
+        User user = userService.getUserByLoginName(userName);
+        session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, user);
+        // 更新用户登录信息
+        String loginIp = IPUtils.getIpAddr(request);
+        userService.updateLoginInfo(user.getId(), new Date(), loginIp);
+        UserDto dto = new UserDto();
+        BeanUtils.copyProperties(user, dto);
+
+        if (rememberMe) {
+            dto.setEncryptUser(JSON.toJSONString(user, SerializerFeature.WriteClassName));
+        }
+        return new HttpResult(HttpResult.SUCCESS, dto);
+    }
+
+    @PostMapping("/loginWithRememberMe")
+    public HttpResult loginWithRememberMe(HttpServletRequest request, String encryptUser) throws Exception {
+
+        System.err.println(encryptUser);
+        if (!StringUtils.hasText(encryptUser)) {
+            return new HttpResult(HttpResult.FAILED, "验证失败");
+        }
+        User user = (User) JSON.parse(encryptUser.toString());
+        HttpSession session = request.getSession();
+        if (user == null) {
+            return new HttpResult(HttpResult.FAILED, "验证失败");
+        }
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginName(), user.getPassword());
         Subject subject = SecurityUtils.getSubject();
 
         // 执行验证
         subject.login(token);
-        // 用户验证成功
-        // 将用户信息保存到session
-        User user = userService.getUserByLoginName(userName);
-        // 保存账号至cookie
-        Cookie cookie = new Cookie(LOGIN_NAME_COOKIE, userName);
-        // 保存一年
-        cookie.setMaxAge(COOKIE_MAX_AGE);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+
 
         session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, user);
         // 更新用户登录信息
@@ -85,8 +137,8 @@ public class LoginController {
         userService.updateLoginInfo(user.getId(), new Date(), loginIp);
         return new HttpResult(HttpResult.SUCCESS, user);
 
-    }
 
+    }
 
     @RequestMapping(value = "/notLogin", method = RequestMethod.GET)
     public HttpResult notLogin() {
@@ -114,7 +166,7 @@ public class LoginController {
         ShearCaptcha captcha = CaptchaUtil.createShearCaptcha(80, 26, 4, 4);
         //图形验证码写出，可以写出到文件，也可以写出到流
         String code = captcha.getCode();
-        logger.info("【系统登陆】当前验证码："+ code);
+        logger.info("【系统登陆】当前验证码：" + code);
         validateCode = code;
         try {
             captcha.write(response.getOutputStream());

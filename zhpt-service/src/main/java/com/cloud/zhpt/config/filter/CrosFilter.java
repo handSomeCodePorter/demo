@@ -1,10 +1,12 @@
 package com.cloud.zhpt.config.filter;
 
 
+import com.cloud.zhpt.warper.BodyReaderHttpServletRequestWrapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,17 +32,21 @@ public class CrosFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:8080,http://l27.0.0.1:8080");
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String origin = request.getHeader("Origin");
+        if (origin == null) {
+            origin = request.getHeader("Referer");
+        }
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", origin);
         httpServletResponse.setHeader("Access-Control-Allow-Headers","User-Agent,Origin,Cache-Control,Content-type,Date,Server,withCredentials,AccessToken,username,offlineticket,Authorization");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD，token");
 
-        HttpSession session = request.getSession();
-
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter(request, httpServletResponse);
 
     }
+
+
 
     @Override
     public void destroy() {

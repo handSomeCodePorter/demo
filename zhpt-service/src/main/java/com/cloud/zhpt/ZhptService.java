@@ -5,9 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * @ClassName Auth
@@ -20,6 +22,7 @@ import org.springframework.context.annotation.PropertySource;
 @MapperScan(basePackages = "com.cloud.zhpt.Dao")
 @EnableEurekaClient
 @EnableCaching
+@ServletComponentScan
 @SpringBootApplication
 public class ZhptService {
     private static Logger logger = LoggerFactory.getLogger(ZhptService.class);

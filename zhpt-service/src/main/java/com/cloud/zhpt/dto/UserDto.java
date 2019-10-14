@@ -13,10 +13,14 @@ import lombok.ToString;
  **/
 @Getter
 @Setter
-@ToString
 public class UserDto extends User {
 
     private String sid;
+
+    /**
+     * 加密的user信息
+     */
+    private String encryptUser;
 
 
 

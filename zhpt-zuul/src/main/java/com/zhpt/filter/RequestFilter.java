@@ -4,14 +4,17 @@ package com.zhpt.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import org.apache.logging.log4j.core.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @ClassName RequestFilter
@@ -26,21 +29,36 @@ public class RequestFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
-        HttpServletRequest request = (HttpServletRequest) RequestContext.getCurrentContext().getRequest();
+        HttpServletRequest req = (HttpServletRequest) RequestContext.getCurrentContext().getRequest();
+        Enumeration<String> headers = req.getHeaderNames();
 
-        String url = String.valueOf(request.getRequestURI());
-
-        // 请求方法
-        String method = request.getMethod();
-        logger.info("------>>>current request url is:" + url);
-        if (method.equals("POST")) {
-            Enumeration<String> parameterNames = request.getParameterNames();
-            Map res = new HashMap();
-            while (parameterNames.hasMoreElements()) {
-                res.put(parameterNames, (String) request.getParameter(parameterNames.nextElement()));
+        logger.info("---->>>REQUEST URI:: " + req.getRequestURI());
+        final RequestContext ctx = RequestContext.getCurrentContext();
+        if (!ctx.isChunkedRequestBody()) {
+            ServletInputStream inp = null;
+            InputStreamReader is = null;
+            try {
+                inp = ctx.getRequest().getInputStream();
+                String body = null;
+                if (inp != null) {
+                    is = new InputStreamReader(inp);
+                    body = IOUtils.toString(is);
+                    logger.info("---->>>REQUEST PARAM:: " + body);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (inp != null) {
+                        inp.close();
+                    }
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            Map<String, String[]> pmap = request.getParameterMap();
-            logger.info("------>>>current request data is:" + res.toString());
         }
 
 
