@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * @ClassName UserDto
  * @Description
@@ -13,7 +15,10 @@ import lombok.ToString;
  **/
 @Getter
 @Setter
-public class UserDto extends User {
+@ToString
+public class UserDto extends User implements Serializable {
+
+    private static final long serialVersionUID = 554262417111655721L;
 
     private String sid;
 

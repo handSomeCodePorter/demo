@@ -9,6 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class User implements Serializable {
+
+    private static final long serialVersionUID = 9082093481962502855L;
+
+
     /**
      * ID
      */

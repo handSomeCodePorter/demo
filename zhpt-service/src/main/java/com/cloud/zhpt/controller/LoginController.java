@@ -4,6 +4,10 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.symmetric.AES;
+import cn.hutool.crypto.symmetric.DES;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.extra.mail.MailUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.cloud.zhpt.Const.EncryptKeyConst;
@@ -23,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +38,8 @@ import javax.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 /**
@@ -59,16 +66,18 @@ public class LoginController {
 
     private final int SESSION_MAX_AGE = 60 * 5;
 
+
     /**
-     * user 加解密key
+     * 16进制 的 加密key
      */
-    private String SECRET_ID;
+    private long i1 = Long.valueOf(EncryptKeyConst.USER_ENCRYPT_KEY, 16);
 
+    private byte[] key = String.format("%016x", i1).getBytes();
 
-    {
-        long i1 = Long.valueOf(EncryptKeyConst.USER_ENCRYPT_KEY, 16);
-        SECRET_ID = String.format("%016x", i1);
-    }
+    /**
+     * 构建aes
+     */
+    private AES aes = SecureUtil.aes(key);
 
     @Autowired
     UserService userService;
@@ -105,37 +114,41 @@ public class LoginController {
         userService.updateLoginInfo(user.getId(), new Date(), loginIp);
         UserDto dto = new UserDto();
         BeanUtils.copyProperties(user, dto);
-
         if (rememberMe) {
-            dto.setEncryptUser(JSON.toJSONString(user, SerializerFeature.WriteClassName));
+            //加密
+            byte[] encrypt = aes.encrypt(JSON.toJSONString(user));
+            dto.setEncryptUser(Base64Utils.encodeToString(encrypt));
         }
         return new HttpResult(HttpResult.SUCCESS, dto);
     }
 
     @PostMapping("/loginWithRememberMe")
-    public HttpResult loginWithRememberMe(HttpServletRequest request, String encryptUser) throws Exception {
-
-        System.err.println(encryptUser);
+    public HttpResult loginWithRememberMe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String encryptUser = request.getParameter("encryptUser");
         if (!StringUtils.hasText(encryptUser)) {
             return new HttpResult(HttpResult.FAILED, "验证失败");
         }
-        User user = (User) JSON.parse(encryptUser.toString());
+        byte[] decrypt = aes.decrypt(Base64Utils.decodeFromString(encryptUser));
+        User user = JSON.parseObject(decrypt, User.class);
         HttpSession session = request.getSession();
         if (user == null) {
             return new HttpResult(HttpResult.FAILED, "验证失败");
         }
         UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginName(), user.getPassword());
         Subject subject = SecurityUtils.getSubject();
-
         // 执行验证
         subject.login(token);
-
-
         session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, user);
         // 更新用户登录信息
         String loginIp = IPUtils.getIpAddr(request);
         userService.updateLoginInfo(user.getId(), new Date(), loginIp);
-        return new HttpResult(HttpResult.SUCCESS, user);
+
+        UserDto dto = new UserDto();
+        BeanUtils.copyProperties(user, dto);
+        //加密
+        byte[] encrypt = aes.encrypt(JSON.toJSONString(user));
+        dto.setEncryptUser(Base64Utils.encodeToString(encrypt));
+        return new HttpResult(HttpResult.SUCCESS, dto);
 
 
     }
@@ -175,6 +188,5 @@ public class LoginController {
         }
 
     }
-
 
 }
