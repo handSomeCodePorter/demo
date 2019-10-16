@@ -21,6 +21,7 @@ import com.cloud.zhpt.entity.User;
 import com.cloud.zhpt.warper.WebSocketServer;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,15 +101,15 @@ public class LoginController {
                 return new HttpResult(HttpResult.FAILED, "验证码错误……");
             }
         }
-        HttpSession session = request.getSession();
         String passwordMD5 = password;
         UsernamePasswordToken token = new UsernamePasswordToken(userName, passwordMD5);
         Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
         // 执行验证
         subject.login(token);
         // 将用户信息保存到session
         User user = userService.getUserByLoginName(userName);
-        session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, user);
+        session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, JSON.toJSONString(user));
         // 更新用户登录信息
         String loginIp = IPUtils.getIpAddr(request);
         userService.updateLoginInfo(user.getId(), new Date(), loginIp);
@@ -119,6 +120,7 @@ public class LoginController {
             byte[] encrypt = aes.encrypt(JSON.toJSONString(user));
             dto.setEncryptUser(Base64Utils.encodeToString(encrypt));
         }
+        dto.setSid(session.getId().toString());
         return new HttpResult(HttpResult.SUCCESS, dto);
     }
 
@@ -128,22 +130,23 @@ public class LoginController {
         if (!StringUtils.hasText(encryptUser)) {
             return new HttpResult(HttpResult.FAILED, "验证失败");
         }
+
         byte[] decrypt = aes.decrypt(Base64Utils.decodeFromString(encryptUser));
         User user = JSON.parseObject(decrypt, User.class);
-        HttpSession session = request.getSession();
         if (user == null) {
             return new HttpResult(HttpResult.FAILED, "验证失败");
         }
         UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginName(), user.getPassword());
         Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
         // 执行验证
         subject.login(token);
-        session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, user);
+        session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, JSON.toJSONString(user));
         // 更新用户登录信息
         String loginIp = IPUtils.getIpAddr(request);
         userService.updateLoginInfo(user.getId(), new Date(), loginIp);
-
         UserDto dto = new UserDto();
+        dto.setSid(session.getId().toString());
         BeanUtils.copyProperties(user, dto);
         //加密
         byte[] encrypt = aes.encrypt(JSON.toJSONString(user));

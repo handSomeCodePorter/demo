@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisSessionDao extends AbstractSessionDAO {
 
     // Session超时时间，单位为毫秒
-    private long expireTime = 120000;
+    private long expireTime = 2 * 60 * 60 * 1000;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -62,6 +62,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
     protected Serializable doCreate(Session session) {
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
+//        System.err.println("doCreate Session:" + sessionId);
         redisTemplate.opsForValue().set(session.getId(), session, expireTime, TimeUnit.MILLISECONDS);
         return sessionId;
     }
@@ -71,6 +72,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
         if (sessionId == null) {
             return null;
         }
+//        System.err.println("doReadSession :" + sessionId);
         return (Session) redisTemplate.opsForValue().get(sessionId);
     }
 

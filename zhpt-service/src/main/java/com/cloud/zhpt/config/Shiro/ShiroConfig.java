@@ -136,7 +136,7 @@ public class ShiroConfig {
     @Bean
     public RedisSessionDao redisSessionDao(){
         RedisSessionDao redisSessionDao = new RedisSessionDao();
-
+        redisSessionDao.setSessionIdGenerator(new CustomSessionIdGenerator());
         return redisSessionDao;
     }
 
@@ -165,7 +165,7 @@ public class ShiroConfig {
     @Bean
     public RedisCacheManager redisCacheManager(){
         RedisCacheManager redisCacheManager = new RedisCacheManager();
-        
+
         return redisCacheManager;
     }
 }
