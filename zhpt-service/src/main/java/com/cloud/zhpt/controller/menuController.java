@@ -1,10 +1,15 @@
 package com.cloud.zhpt.controller;
 
+import cn.hutool.core.lang.Console;
 import com.cloud.zhpt.Const.SessionKeyConst;
 import com.cloud.zhpt.HttpResult;
 import com.cloud.zhpt.Service.MenuService;
 import com.cloud.zhpt.config.Shiro.RedisSessionDao;
 import com.cloud.zhpt.entity.User;
+import com.cloud.zhpt.exception.CustomRunTimeException;
+import com.cloud.zhpt.exception.ExceptionCode;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,9 +35,14 @@ public class menuController {
     @Autowired
     RedisSessionDao redisSessionDao;
 
+    @RequiresPermissions(value = {"msg:find"})
+    @RequiresRoles("admin")
     @PostMapping("/listTopMenu")
     public HttpResult listTopMenu(User user, HttpServletRequest request) {
-        return new HttpResult(menuService.listMenuTopLevelByUserId(user.getId()));
+
+        System.out.println("dddd");
+
+        return new HttpResult(HttpResult.SUCCESS);
     }
 
     @PostMapping("/welcome/test")

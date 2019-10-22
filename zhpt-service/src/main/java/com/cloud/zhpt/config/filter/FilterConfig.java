@@ -1,4 +1,4 @@
-package com.cloud.zhpt.config;
+package com.cloud.zhpt.config.filter;
 
 import com.cloud.zhpt.config.filter.CrosFilter;
 import com.cloud.zhpt.config.filter.HttpServletRequestWrapperFilter;
@@ -19,8 +19,8 @@ public class FilterConfig   {
     @Autowired
     CrosFilter crosFilter;
 
-    @Autowired
-    HttpServletRequestWrapperFilter httpServletRequestWrapperFilter;
+//    @Autowired
+//    HttpServletRequestWrapperFilter httpServletRequestWrapperFilter;
 
     @Bean
     public FilterRegistrationBean CrosFilter() {
@@ -32,7 +32,7 @@ public class FilterConfig   {
         return registration;
     }
 
-    @Bean
+   /* @Bean
     public FilterRegistrationBean registHttpServletRequestWrapperFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(httpServletRequestWrapperFilter);
@@ -40,6 +40,20 @@ public class FilterConfig   {
         registration.setName("httpServletRequestWrapperFilter");
         registration.setOrder(1);
         return registration;
+    }*/
+
+
+  /*  @Bean
+    public FilterRegistrationBean shiroLoginFilterRegistration(LoginFilter filter) {
+        FilterRegistrationBean registration = new FilterRegistrationBean(filter);
+        registration.setEnabled(false);
+        return registration;
     }
 
+    @Bean
+    public FilterRegistrationBean shiroPermFilterRegistration(PermFailFilter filter) {
+        FilterRegistrationBean registration = new FilterRegistrationBean(filter);
+        registration.setEnabled(false);
+        return registration;
+    }*/
 }

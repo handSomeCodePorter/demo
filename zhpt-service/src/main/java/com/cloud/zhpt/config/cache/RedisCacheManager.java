@@ -1,5 +1,6 @@
 package com.cloud.zhpt.config.cache;
 
+import com.cloud.zhpt.dto.UserDto;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 包装redis cache抽象
- * 
+ *
 * @ClassName: redisCacheManager
 * @Description:  redisCacheManager
 * @author
@@ -25,17 +26,24 @@ public class RedisCacheManager implements CacheManager {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    private long expireTime = 2 * 60 * 60 ;// 缓存的超时时间，单位为s
+
     @SuppressWarnings("unchecked")
     @Override
     public <K, V> Cache<K, V> getCache(String name) throws CacheException {
 
-        return new RedisCache();
+        return new RedisCache(expireTime,redisTemplate);
+    }
+
+
+    public void setExpireTime(long expireTime) {
+        this.expireTime = expireTime;
     }
 
     @SuppressWarnings("rawtypes")
     static class RedisCache<K, V> implements Cache<K, V> {
 
-        private long expireTime = 120;// 缓存的超时时间，单位为s
+        private long expireTime = 2 * 60 * 60 ;// 缓存的超时时间，单位为s
 
         private RedisTemplate<K, V> redisTemplate;// 通过构造方法注入该对象
 

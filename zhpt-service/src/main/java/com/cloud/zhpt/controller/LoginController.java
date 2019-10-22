@@ -174,6 +174,10 @@ public class LoginController {
         return new HttpResult(HttpResult.SUCCESS, "成功退出…");
     }
 
+    @PostMapping(value = "/unAuth")
+    public HttpResult unAuth(){
+        return new HttpResult(HttpResult.FAILED,"未登录");
+    }
 
     @GetMapping("/getImgCode")
     public synchronized void getImgCode(HttpServletRequest req, HttpServletResponse response) {
@@ -191,5 +195,7 @@ public class LoginController {
         }
 
     }
+
+
 
 }

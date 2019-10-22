@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.FilterConfig;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ public class CrosFilter implements Filter {
 
     @Value("${spring.cloud.cros.allow-origin}")
     private String allowOrigin ;
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

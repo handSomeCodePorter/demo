@@ -17,6 +17,7 @@ public class CustomSessionIdGenerator implements SessionIdGenerator {
 
     @Override
     public Serializable generateId(Session session) {
+
         return "zhpt_" + new JavaUuidSessionIdGenerator().generateId(session);
     }
 }

@@ -90,7 +90,7 @@ public class WebSocketServer {
      * @param sid
      * @throws IOException
      */
-    public static void sendInfo(String message,@PathParam("sid") String sid) throws IOException {
+    public static void sendInfo(String message,String sid) throws IOException {
         logger.info("【websocket】推送消息至窗口："+sid+"，推送内容:"+message);
         for (WebSocketServer item : webSocketSet) {
             try {
@@ -112,7 +112,7 @@ public class WebSocketServer {
      *
      */
     public static synchronized int getOnlineCount() {
-        return onlineCount;
+        return WebSocketServer.onlineCount;
     }
 
     /**

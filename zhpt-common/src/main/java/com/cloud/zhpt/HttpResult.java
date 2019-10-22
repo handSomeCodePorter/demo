@@ -3,7 +3,7 @@ package com.cloud.zhpt;
 import java.io.Serializable;
 
 /**
- * @ClassName Notification
+ * @ClassName HttpResult
  * @Description
  * @Author SW
  * @Date 2019/8/30 21:30

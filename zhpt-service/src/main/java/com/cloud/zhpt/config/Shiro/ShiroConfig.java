@@ -3,21 +3,28 @@ package com.cloud.zhpt.config.Shiro;
 
 import cn.hutool.core.codec.Base64;
 import com.cloud.zhpt.config.cache.RedisCacheManager;
+import com.cloud.zhpt.config.filter.CustomAuthFilter;
+import com.cloud.zhpt.config.filter.CustomLoginFilter;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.context.annotation.DependsOn;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.servlet.Filter;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,16 +37,25 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    private long CACHE_EXPIRETIME = 2 * 60 * 60;
 
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/login");
 
+        //自定义filter
+        Map<String, Filter> shiroCustomFilterMap = new HashMap<String, Filter>();
+
+        shiroCustomFilterMap.put("customAuthFilter", new CustomAuthFilter());
+        shiroCustomFilterMap.put("customLoginFilter", new CustomLoginFilter());
+        shiroFilterFactoryBean.setFilters(shiroCustomFilterMap);
+
+
+        shiroFilterFactoryBean.setLoginUrl("/unAuth");
         // 设置无权限时跳转的 url;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
+        /* shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");*/
         // 设置拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //游客，开发权限
@@ -57,11 +73,18 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/admin/**", "roles[admin]");
         //开放登陆接口
         filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/unAuth", "anon");
+        filterChainDefinitionMap.put("/logout", "logout");
+
         //其余接口一律拦截 主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
-        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "customLoginFilter,customAuthFilter,authc");
+
+
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
-        return  shiroFilterFactoryBean;
+
+        return shiroFilterFactoryBean;
     }
 
   /*  @EventListener
@@ -85,7 +108,6 @@ public class ShiroConfig {
     }
 
 
-
     /**
      * 自定义身份认证 realm;
      * <p>
@@ -93,8 +115,11 @@ public class ShiroConfig {
      * 否则会影响 CustomRealm类 中其他类的依赖注入
      */
     @Bean
-    public CustomRealm customRealm(){
-        return  new CustomRealm();
+    public CustomRealm customRealm() {
+        CustomRealm realm = new CustomRealm();
+        realm.setAuthenticationCachingEnabled(true); //开启缓存
+        realm.setAuthorizationCachingEnabled(true);
+        return realm;
     }
 
     @Bean
@@ -104,7 +129,7 @@ public class ShiroConfig {
         //如果httyOnly设置为true，则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；
         simpleCookie.setHttpOnly(false);
         //记住我cookie生效时间,单位是秒
-        simpleCookie.setMaxAge(60*60*24*30);
+        simpleCookie.setMaxAge(60 * 60 * 24 * 30);
         return simpleCookie;
     }
 
@@ -126,6 +151,7 @@ public class ShiroConfig {
 
     /**
      * 配置会话ID生成器
+     *
      * @return
      */
     @Bean
@@ -134,14 +160,14 @@ public class ShiroConfig {
     }
 
     @Bean
-    public RedisSessionDao redisSessionDao(){
+    public RedisSessionDao redisSessionDao() {
         RedisSessionDao redisSessionDao = new RedisSessionDao();
         redisSessionDao.setSessionIdGenerator(new CustomSessionIdGenerator());
         return redisSessionDao;
     }
 
     @Bean
-    public ShiroSessionManager webSessionManager(){
+    public ShiroSessionManager webSessionManager() {
         ShiroSessionManager manager = new ShiroSessionManager();
         manager.setCacheManager(redisCacheManager());// 加入缓存管理器
         manager.setSessionDAO(redisSessionDao());// 设置SessionDao
@@ -152,20 +178,44 @@ public class ShiroConfig {
     }
 
 
-
     /**
      * Shiro生命周期处理器
-     *
      */
-    @Bean
+    @Bean("lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
-    @Bean
-    public RedisCacheManager redisCacheManager(){
-        RedisCacheManager redisCacheManager = new RedisCacheManager();
 
+    @Bean
+    @DependsOn({"lifecycleBeanPostProcessor"})
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
+
+
+    @Bean
+    public RedisCacheManager redisCacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setExpireTime(CACHE_EXPIRETIME);
         return redisCacheManager;
     }
+
+
+    /**
+     * 开启shiro 注解模式
+     * 可以在controller中的方法前加上注解
+     * 如 @RequiresPermissions("userInfo:add")
+     * @param securityManager
+     * @return
+     */
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager){
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+
 }
