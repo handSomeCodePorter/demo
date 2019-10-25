@@ -1,5 +1,6 @@
 package com.cloud.zhpt.exception;
 
+import com.cloud.zhpt.HttpResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,12 @@ public class CommonExceptionHandler {
         return errorResultMap;
     }
 
-
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(HttpStatus.OK)
+    public HttpResult unknownException(Exception ex) {
+        logger.info("unknownException:" + HttpStatus.INTERNAL_SERVER_ERROR, ex);
+        return new HttpResult(HttpResult.FAILED, ex.getMessage());
+    }
 
 
 }

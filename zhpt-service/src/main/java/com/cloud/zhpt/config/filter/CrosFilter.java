@@ -40,9 +40,9 @@ public class CrosFilter implements Filter {
             origin = request.getHeader("Referer");
         }
         httpServletResponse.setHeader("Access-Control-Allow-Origin", origin);
-        httpServletResponse.setHeader("Access-Control-Allow-Headers","User-Agent,Origin,Cache-Control,Content-type,Date,Server,withCredentials,AccessToken,username,offlineticket,Authorization");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "User-Agent,Origin,Cache-Control,Content-type,Date,Server,withCredentials,AccessToken,TOKEN,username,offlineticket,Authorization");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD，token");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 
         filterChain.doFilter(request, httpServletResponse);
 

@@ -5,6 +5,7 @@ import com.cloud.zhpt.Const.SessionKeyConst;
 import com.cloud.zhpt.HttpResult;
 import com.cloud.zhpt.Service.MenuService;
 import com.cloud.zhpt.config.Shiro.RedisSessionDao;
+import com.cloud.zhpt.entity.Menu;
 import com.cloud.zhpt.entity.User;
 import com.cloud.zhpt.exception.CustomRunTimeException;
 import com.cloud.zhpt.exception.ExceptionCode;
@@ -35,15 +36,19 @@ public class menuController {
     @Autowired
     RedisSessionDao redisSessionDao;
 
-    @RequiresPermissions(value = {"msg:find"})
-    @RequiresRoles("admin")
+    //@RequiresPermissions("admin:menu:list")
     @PostMapping("/listTopMenu")
     public HttpResult listTopMenu(User user, HttpServletRequest request) {
-
-        System.out.println("dddd");
-
         return new HttpResult(HttpResult.SUCCESS);
     }
+
+
+    @PostMapping("/insertMenu")
+    public HttpResult insertMenu(Menu menu) {
+        menuService.insertMenu(menu);
+        return new HttpResult(HttpResult.SUCCESS, "新增成功");
+    }
+
 
     @PostMapping("/welcome/test")
     public String test() {

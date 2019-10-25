@@ -19,11 +19,11 @@
     <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, HREF, TARGET, ICON, PERMISSIONS, SHIRO_PERMISSIONS, IS_SHOW, SORT, SHORTCUT, 
+    ID, NAME, HREF, TARGET, ICON, PERMISSIONS, SHIRO_PERMISSIONS, IS_SHOW, SORT, SHORTCUT,
     SHORTCUT_ICON, REMARK, CREATE_TIME, MODIFY_TIME, PARENT_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+      select
     <include refid="Base_Column_List" />
     from sys_menu
     where ID = #{id,jdbcType=DECIMAL}
@@ -33,25 +33,29 @@
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.cloud.zhpt.entity.Menu">
-    insert into sys_menu (ID, NAME, HREF, 
-      TARGET, ICON, PERMISSIONS, 
-      SHIRO_PERMISSIONS, IS_SHOW, SORT, 
-      SHORTCUT, SHORTCUT_ICON, REMARK, 
+      <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+          select NEXT_VAL('sys_menu')
+      </selectKey>
+      insert into sys_menu (ID, NAME, HREF,
+      TARGET, ICON, PERMISSIONS,
+      SHIRO_PERMISSIONS, IS_SHOW, SORT,
+      SHORTCUT, SHORTCUT_ICON, REMARK,
       CREATE_TIME, MODIFY_TIME, PARENT_ID
       )
-    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{href,jdbcType=VARCHAR}, 
-      #{target,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{permissions,jdbcType=VARCHAR}, 
-      #{shiroPermissions,jdbcType=VARCHAR}, #{isShow,jdbcType=DECIMAL}, #{sort,jdbcType=DECIMAL}, 
-      #{shortcut,jdbcType=DECIMAL}, #{shortcutIcon,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      values #{id}, #{name,jdbcType=VARCHAR}, #{href,jdbcType=VARCHAR},
+      #{target,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{permissions,jdbcType=VARCHAR},
+      #{shiroPermissions,jdbcType=VARCHAR}, #{isShow,jdbcType=DECIMAL}, #{sort,jdbcType=DECIMAL},
+      #{shortcut,jdbcType=DECIMAL}, #{shortcutIcon,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.cloud.zhpt.entity.Menu">
+      <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+          select NEXT_VAL('sys_menu')
+      </selectKey>
     insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
         ID,
-      </if>
       <if test="name != null">
         NAME,
       </if>
@@ -96,9 +100,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=DECIMAL},
-      </if>
+        #{id},
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -302,8 +304,8 @@
         select DISTINCT rm.MENU_ID from SYS_ROLE_MENU rm
         where rm.ROLE_ID in
         (select ur.ROLE_ID from SYS_USER_ROLE ur inner join SYS_USER u on(ur.USER_ID = u.ID) where u.LOGIN_NAME=#{loginName})
-        ) and SHOW = 1
-        order by rn
+        ) and IS_SHOW = 1
+        order by sort
     </select>
 
   <select id="listShortcutMenuByUserId" parameterType="java.lang.Integer" resultMap="MenuResultMap">

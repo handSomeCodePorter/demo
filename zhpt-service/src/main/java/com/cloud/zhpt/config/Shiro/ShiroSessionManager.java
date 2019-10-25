@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Configuration
 public class ShiroSessionManager  extends DefaultWebSessionManager {
 
-    private static final String TOKEN = "token";
+    private static final String TOKEN = "TOKEN";
 
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
 

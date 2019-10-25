@@ -43,7 +43,7 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         // 用户授权
         authorizationInfo.setRoles(userService.findRoles(loginName));
-        //authorizationInfo.setStringPermissions(menuService.findPermissions(loginName));
+        authorizationInfo.setStringPermissions(menuService.findPermissions(loginName));
         return authorizationInfo;
     }
 

@@ -20,7 +20,8 @@ import com.cloud.zhpt.dto.UserDto;
 import com.cloud.zhpt.entity.User;
 import com.cloud.zhpt.warper.WebSocketServer;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -91,7 +92,8 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public HttpResult Login(HttpServletRequest request, HttpServletResponse response, String userName, String password, String captcha, boolean rememberMe) throws Exception {
+    public HttpResult Login(HttpServletRequest request, HttpServletResponse response, String userName, String password, String captcha, boolean rememberMe) {
+        String msg = "";
         if (logincaptcha) {
             if (!StringUtils.hasText(captcha)) {
                 return new HttpResult(HttpResult.FAILED, "验证码不能为空……");
@@ -103,25 +105,50 @@ public class LoginController {
         }
         String passwordMD5 = password;
         UsernamePasswordToken token = new UsernamePasswordToken(userName, passwordMD5);
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        // 执行验证
-        subject.login(token);
-        // 将用户信息保存到session
-        User user = userService.getUserByLoginName(userName);
-        session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, JSON.toJSONString(user));
-        // 更新用户登录信息
-        String loginIp = IPUtils.getIpAddr(request);
-        userService.updateLoginInfo(user.getId(), new Date(), loginIp);
-        UserDto dto = new UserDto();
-        BeanUtils.copyProperties(user, dto);
-        if (rememberMe) {
-            //加密
-            byte[] encrypt = aes.encrypt(JSON.toJSONString(user));
-            dto.setEncryptUser(Base64Utils.encodeToString(encrypt));
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            Session session = subject.getSession();
+            // 执行验证
+            subject.login(token);
+            // 将用户信息保存到session
+            User user = userService.getUserByLoginName(userName);
+            session.setAttribute(SessionKeyConst.USER_SESSION_CONATEXT, JSON.toJSONString(user));
+            // 更新用户登录信息
+            String loginIp = IPUtils.getIpAddr(request);
+            userService.updateLoginInfo(user.getId(), new Date(), loginIp);
+            UserDto dto = new UserDto();
+            BeanUtils.copyProperties(user, dto);
+            if (rememberMe) {
+                //加密
+                byte[] encrypt = aes.encrypt(JSON.toJSONString(user));
+                dto.setEncryptUser(Base64Utils.encodeToString(encrypt));
+            }
+            dto.setSid(session.getId().toString());
+            return new HttpResult(HttpResult.SUCCESS, dto);
+        } catch (IncorrectCredentialsException e) {
+            msg = "用户名或密码错误";
+
+        } catch (ExcessiveAttemptsException e) {
+            msg = "【登录失败次数过多】";
+            return new HttpResult(HttpResult.FAILED, msg);
+        } catch (LockedAccountException e) {
+            msg = "【帐号已被锁定】 The account for username " + token.getPrincipal() + " was locked.";
+            return new HttpResult(HttpResult.FAILED, msg);
+        } catch (DisabledAccountException e) {
+            msg = "【帐号已被禁用】 The account for username " + token.getPrincipal() + " was disabled.";
+            return new HttpResult(HttpResult.FAILED, msg);
+        } catch (ExpiredCredentialsException e) {
+            msg = "【帐号已被禁用】  the account for username " + token.getPrincipal() + "  was expired.";
+            return new HttpResult(HttpResult.FAILED, msg);
+        } catch (UnknownAccountException e) {
+            msg = "【账户不存在】 There is no user with username of " + token.getPrincipal();
+            return new HttpResult(HttpResult.FAILED, msg);
+        } catch (UnauthorizedException e) {
+            msg = e.getMessage();
+            return new HttpResult(HttpResult.FAILED, msg);
         }
-        dto.setSid(session.getId().toString());
-        return new HttpResult(HttpResult.SUCCESS, dto);
+        return new HttpResult(HttpResult.FAILED, msg);
+
     }
 
     @PostMapping("/loginWithRememberMe")
@@ -175,8 +202,8 @@ public class LoginController {
     }
 
     @PostMapping(value = "/unAuth")
-    public HttpResult unAuth(){
-        return new HttpResult(HttpResult.FAILED,"未登录");
+    public HttpResult unAuth() {
+        return new HttpResult(HttpResult.FAILED, "未登录");
     }
 
     @GetMapping("/getImgCode")
@@ -195,7 +222,6 @@ public class LoginController {
         }
 
     }
-
 
 
 }
