@@ -1,3 +1,4 @@
+##############################################################################
 spring:
   application:
     name: zhpt-service
@@ -13,6 +14,7 @@ spring:
 server:
   port: 8081
 
+#################################################################################
 eureka:
   client:
     register-with-eureka: true
@@ -24,6 +26,8 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
     prefer-ip-address: true
 
+
+##############################################################################
 zhpt:
     cloud:
       resources:
@@ -32,13 +36,15 @@ zhpt:
         redis:
           locations: redis.properties
 
-
+##############################################################################
 mybatis:
   config-location: classpath:mybatis.cfg.xml
   type-aliases-package: com.cloud.zhpt.*.entity
   mapper-locations: classpath*:com/cloud/zhpt/*/*/mapper/*.xml
   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+
+###############################################################################
 logging:
   config: classpath:log4j2.xml
 
