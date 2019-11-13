@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: zhpt-zuul
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://192.168.2.3:8101/eureka
+
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+zuul:
+  routes:
+    provider-product:
+      path: /*
+      serviceId: zhpt-service
+      stripPrefix: false  #去除path中的前缀 zhpt-service
+      custom-sensitive-headers: true
+
+
+  sensitive-headers:
+
+
+
+
+logging:
+  config: classpath:log4j2.xml
+

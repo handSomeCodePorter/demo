@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.RoleDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Role">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="IDENTIFY" jdbcType="VARCHAR" property="identify"/>
+        <result column="DATA_SCOPE" jdbcType="VARCHAR" property="dataScope"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="USEABLE" jdbcType="DECIMAL" property="useable"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="SORT" jdbcType="DECIMAL" property="sort"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        ID, NAME, IDENTIFY, DATA_SCOPE, REMARK, USEABLE, CREATE_TIME, MODIFY_TIME, SORT
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_ROLE
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        delete from SYS_ROLE
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Role">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select NEXT_VAL('SYS_ROLE')
+        </selectKey>
+        insert into SYS_ROLE (ID, NAME, IDENTIFY,
+        DATA_SCOPE, REMARK, USEABLE,
+        CREATE_TIME, MODIFY_TIME, SORT
+        )
+        values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{identify,jdbcType=VARCHAR},
+        #{dataScope,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{useable,jdbcType=DECIMAL},
+        #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{sort,jdbcType=DECIMAL}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Role">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select NEXT_VAL('SYS_ROLE')
+        </selectKey>
+        insert into SYS_ROLE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="identify != null">
+                IDENTIFY,
+            </if>
+            <if test="dataScope != null">
+                DATA_SCOPE,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="useable != null">
+                USEABLE,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+            <if test="sort != null">
+                SORT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="identify != null">
+                #{identify,jdbcType=VARCHAR},
+            </if>
+            <if test="dataScope != null">
+                #{dataScope,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="useable != null">
+                #{useable,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Role">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        update SYS_ROLE
+        <set>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="identify != null">
+                IDENTIFY = #{identify,jdbcType=VARCHAR},
+            </if>
+            <if test="dataScope != null">
+                DATA_SCOPE = #{dataScope,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="useable != null">
+                USEABLE = #{useable,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sort != null">
+                SORT = #{sort,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Role">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-09-16 14:32:11
+        -->
+        update SYS_ROLE
+        set NAME = #{name,jdbcType=VARCHAR},
+        IDENTIFY = #{identify,jdbcType=VARCHAR},
+        DATA_SCOPE = #{dataScope,jdbcType=VARCHAR},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        USEABLE = #{useable,jdbcType=DECIMAL},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+        SORT = #{sort,jdbcType=DECIMAL}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <resultMap extends="BaseResultMap" id="RoleResultMap" type="com.cloud.zhpt.admin.entity.Role">
+        <result column="OWN_ROLE" jdbcType="DECIMAL" property="ownRole"/>
+    </resultMap>
+
+    <select id="listRole" resultMap="BaseResultMap">
+        select a.* from SYS_ROLE a order by a.SORT
+    </select>
+
+    <insert id="insertRoleMenu" parameterType="com.cloud.zhpt.admin.entity.RoleMenu">
+        insert into SYS_ROLE_MENU (ROLE_ID, MENU_ID)
+        values (#{roleId}, #{menuId})
+    </insert>
+
+    <delete id="deleteRoleMenuByRoleId" parameterType="java.lang.Integer">
+        delete from SYS_ROLE_MENU
+        where ROLE_ID = #{roleId}
+    </delete>
+
+    <delete id="deleteUserRoleByRoleId" parameterType="java.lang.Integer">
+        delete from SYS_USER_ROLE
+        where ROLE_ID = #{roleId}
+    </delete>
+
+    <delete id="deleteRoleMenuBatchByRoleId">
+        delete from SYS_ROLE_MENU where ROLE_ID in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserRoleBatchByRoleId">
+        delete from SYS_USER_ROLE where ROLE_ID in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteRoleBatch">
+        delete from SYS_ROLE where ID in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="listUseableRoleForChoose" parameterType="java.lang.Integer" resultMap="RoleResultMap">
+        select a.*,
+        case when b.ROLE_ID is not null then 1 else 0 end OWN_ROLE
+        from SYS_ROLE a
+        left join (select * from SYS_USER_ROLE where USER_ID = #{userId}) b on (b.ROLE_ID=a.ID)
+        where a.USEABLE = 1
+        order by a.SORT
+    </select>
+
+    <select id="listUseableRole" resultMap="BaseResultMap">
+        select a.* from SYS_ROLE a where a.USEABLE=1 order by a.SORT
+    </select>
+
+    <select id="getRoleByIdentify" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.* from SYS_ROLE a where a.IDENTIFY=#{identify}
+    </select>
+
+    <select id="listDentifyByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select a.IDENTIFY
+        from SYS_ROLE a
+        inner join SYS_USER_ROLE b on (b.ROLE_ID=a.ID)
+        where b.USER_ID=#{userId}
+    </select>
+</mapper>

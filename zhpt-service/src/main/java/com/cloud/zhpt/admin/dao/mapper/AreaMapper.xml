@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.reaDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Area">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="SORT" jdbcType="DECIMAL" property="sort"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        ID, CODE, NAME, TYPE, SORT, REMARK, CREATE_TIME, MODIFY_TIME, PARENT_ID
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_AREA
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        delete from SYS_AREA
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Area">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_AREA.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_AREA (ID, CODE, NAME,
+        TYPE, SORT, REMARK,
+        CREATE_TIME, MODIFY_TIME, PARENT_ID
+        )
+        values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+        #{type,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=DECIMAL}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Area">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_AREA.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_AREA
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="code != null">
+                CODE,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="sort != null">
+                SORT,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Area">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        update SYS_AREA
+        <set>
+            <if test="code != null">
+                CODE = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                SORT = #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Area">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-25 15:55:09
+        -->
+        update SYS_AREA
+        set CODE = #{code,jdbcType=VARCHAR},
+        NAME = #{name,jdbcType=VARCHAR},
+        TYPE = #{type,jdbcType=VARCHAR},
+        SORT = #{sort,jdbcType=DECIMAL},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+        PARENT_ID = #{parentId,jdbcType=DECIMAL}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <resultMap extends="BaseResultMap" id="AreaResultMap" type="com.cloud.zhpt.admin.entity.Area">
+        <result column="AREA_LEVEL" jdbcType="DECIMAL" property="areaLevel"/>
+        <result column="LEAF" jdbcType="DECIMAL" property="leaf"/>
+        <result column="PATH_NAME" jdbcType="VARCHAR" property="pathName"/>
+        <result column="ROOT_Id" jdbcType="DECIMAL" property="rootId"/>
+        <result column="ROOT_NAME" jdbcType="VARCHAR" property="rootName"/>
+        <result column="PARENT_NAME" jdbcType="VARCHAR" property="parentName"/>
+    </resultMap>
+
+    <select id="listArea" resultMap="AreaResultMap">
+        select a.* from SYS_AREA_VIEW a order by a.RN asc
+    </select>
+
+    <select id="getAreaById" parameterType="java.lang.Integer" resultMap="AreaResultMap">
+        select a.* from SYS_AREA_VIEW a where a.ID =  #{id}
+    </select>
+
+    <select id="getMaxSort" resultType="java.lang.Integer">
+        select MAX(a.SORT) SORT from SYS_AREA_VIEW a
+        where a.AREA_LEVEL = #{level}
+        <if test="parentId != null">
+            and a.PARENT_ID = #{parentId}
+        </if>
+    </select>
+
+    <select id="getAreaIdByCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select ID from SYS_AREA_VIEW where CODE = #{code}
+    </select>
+</mapper>

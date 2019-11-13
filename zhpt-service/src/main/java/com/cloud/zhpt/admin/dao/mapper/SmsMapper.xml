@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.SmsDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Sms">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+        <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime"/>
+        <result column="EXPIRES_TIME" jdbcType="TIMESTAMP" property="expiresTime"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        ID, PHONE, CONTENT, SEND_TIME, EXPIRES_TIME, REMARK, STATUS, CREATE_TIME, MODIFY_TIME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_SMS
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        delete from SYS_SMS
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Sms">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_SMS.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_SMS (ID, PHONE, CONTENT,
+        SEND_TIME, EXPIRES_TIME, REMARK,
+        STATUS, CREATE_TIME, MODIFY_TIME
+        )
+        values (#{id,jdbcType=DECIMAL}, #{phone,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+        #{sendTime,jdbcType=TIMESTAMP}, #{expiresTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Sms">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_SMS.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_SMS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="phone != null">
+                PHONE,
+            </if>
+            <if test="content != null">
+                CONTENT,
+            </if>
+            <if test="sendTime != null">
+                SEND_TIME,
+            </if>
+            <if test="expiresTime != null">
+                EXPIRES_TIME,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expiresTime != null">
+                #{expiresTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Sms">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        update SYS_SMS
+        <set>
+            <if test="phone != null">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTime != null">
+                SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expiresTime != null">
+                EXPIRES_TIME = #{expiresTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Sms">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-11 09:47:08
+        -->
+        update SYS_SMS
+        set PHONE = #{phone,jdbcType=VARCHAR},
+        CONTENT = #{content,jdbcType=VARCHAR},
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+        EXPIRES_TIME = #{expiresTime,jdbcType=TIMESTAMP},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <select id="listSms" parameterType="com.cloud.zhpt.admin.dto.SmsQuery" resultMap="BaseResultMap">
+        select * from SYS_SMS a
+        <where>
+            <if test="phone != null and phone !=''">
+                a.PHONE = #{phone}
+            </if>
+            <if test="content != null and content != ''">
+                and a.CONTENT like '%'||#{content}||'%'
+            </if>
+            <if test="startSendTime != null">
+                <![CDATA[ and a.SEND_TIME > #{startSendTime} ]]>
+            </if>
+            <if test="endSendTime != null">
+                <![CDATA[ and a.SEND_TIME < #{endSendTime} + 1 ]]>
+            </if>
+            <if test="status != null and status != ''">
+                and a.STATUS = #{status}
+            </if>
+        </where>
+
+        order by a.SEND_TIME desc nulls last
+    </select>
+
+    <select id="listSentSms" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <![CDATA[
+
+        select * from (
+        select a.*,rownum as RN from SYS_SMS a where a.STATUS='0' and a.EXPIRES_TIME>sysdate order by a.ID desc
+        ) t where t.RN<=#{size}
+
+        ]]>
+    </select>
+</mapper>

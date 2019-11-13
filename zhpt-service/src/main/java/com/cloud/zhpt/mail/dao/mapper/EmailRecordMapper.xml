@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.mail.dao.EmailRecordDao">
+  <resultMap id="BaseResultMap" type="com.cloud.zhpt.mail.entity.EmailRecord">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="SENDER" jdbcType="VARCHAR" property="sender" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="RECEIVE_TIME" jdbcType="TIMESTAMP" property="receiveTime" />
+    <result column="MAIL_TYPE" jdbcType="INTEGER" property="mailType" />
+    <result column="SEND_STATUS" jdbcType="INTEGER" property="sendStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TITLE, CONTENT, SENDER, SEND_TIME, ADDRESS, RECEIVE_TIME, MAIL_TYPE, SEND_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from email_record
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from email_record
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.cloud.zhpt.mail.entity.EmailRecord">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select NEXT_VAL('email_record')
+    </selectKey>
+    insert into email_record (ID, TITLE, CONTENT,
+      SENDER, SEND_TIME, ADDRESS,
+      RECEIVE_TIME, MAIL_TYPE, SEND_STATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+      #{sender,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR},
+      #{receiveTime,jdbcType=TIMESTAMP}, #{mailType,jdbcType=INTEGER}, #{sendStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud.zhpt.mail.entity.EmailRecord">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select NEXT_VAL('email_record')
+    </selectKey>
+    insert into email_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="sender != null">
+        SENDER,
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="receiveTime != null">
+        RECEIVE_TIME,
+      </if>
+      <if test="mailType != null">
+        MAIL_TYPE,
+      </if>
+      <if test="sendStatus != null">
+        SEND_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mailType != null">
+        #{mailType,jdbcType=INTEGER},
+      </if>
+      <if test="sendStatus != null">
+        #{sendStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.mail.entity.EmailRecord">
+    update email_record
+    <set>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        SENDER = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null">
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mailType != null">
+        MAIL_TYPE = #{mailType,jdbcType=INTEGER},
+      </if>
+      <if test="sendStatus != null">
+        SEND_STATUS = #{sendStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.mail.entity.EmailRecord">
+    update email_record
+    set TITLE = #{title,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      SENDER = #{sender,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      MAIL_TYPE = #{mailType,jdbcType=INTEGER},
+      SEND_STATUS = #{sendStatus,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

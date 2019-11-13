@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.ictDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Dict">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="VALUE" jdbcType="VARCHAR" property="value"/>
+        <result column="LABEL" jdbcType="VARCHAR" property="label"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="SORT" jdbcType="DECIMAL" property="sort"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        ID, TYPE, VALUE, LABEL, DESCRIPTION, SORT, CREATE_TIME, MODIFY_TIME, PARENT_ID
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_DICT
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        delete from SYS_DICT
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Dict">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_DICT.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_DICT (ID, TYPE, VALUE,
+        LABEL, DESCRIPTION, SORT,
+        CREATE_TIME, MODIFY_TIME, PARENT_ID
+        )
+        values (#{id,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR},
+        #{label,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL},
+        #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=DECIMAL}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Dict">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_DICT.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_DICT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="value != null">
+                VALUE,
+            </if>
+            <if test="label != null">
+                LABEL,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="sort != null">
+                SORT,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null">
+                #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Dict">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        update SYS_DICT
+        <set>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                VALUE = #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="label != null">
+                LABEL = #{label,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                SORT = #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Dict">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-03 19:20:08
+        -->
+        update SYS_DICT
+        set TYPE = #{type,jdbcType=VARCHAR},
+        VALUE = #{value,jdbcType=VARCHAR},
+        LABEL = #{label,jdbcType=VARCHAR},
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+        SORT = #{sort,jdbcType=DECIMAL},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+        PARENT_ID = #{parentId,jdbcType=DECIMAL}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <select id="listDict" parameterType="com.cloud.zhpt.admin.dto.DictQuery" resultMap="BaseResultMap">
+        select a.* from SYS_DICT a
+        <where>
+            <if test="type != null and type!=''">
+                a.TYPE=#{type}
+            </if>
+            <if test="description != null and description != ''">
+                and a.DESCRIPTION like '%'||#{description}||'%'
+            </if>
+        </where>
+        order by a.TYPE,a.SORT
+    </select>
+
+    <delete id="deleteDictBatch">
+        delete from SYS_DICT where ID in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="listDictType" resultType="java.lang.String">
+        select TYPE from SYS_DICT group by TYPE
+    </select>
+
+    <select id="listDictByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.* from SYS_DICT a where a.TYPE=#{type} order by a.SORT
+    </select>
+
+    <select id="getDictByTypeAndValue" resultMap="BaseResultMap">
+        select a.* from SYS_DICT a where a.TYPE=#{type} and a.VALUE=#{value}
+    </select>
+
+    <select id="getDictLabel" resultType="java.lang.String">
+        select a.LABEL from SYS_DICT a where a.TYPE=#{type} and a.VALUE=#{value}
+    </select>
+
+    <select id="getDictValue" resultType="java.lang.String">
+        select a.VALUE from SYS_DICT a where a.TYPE=#{type} and a.LABEL=#{label}
+    </select>
+
+    <select id="getMaxDictValue" resultType="java.lang.Integer">
+        select max(to_number(a.VALUE)) from SYS_DICT a where a.TYPE=#{type}
+    </select>
+
+    <select id="listDictByTypeAndValue" resultMap="BaseResultMap">
+        select t.* from SYS_DICT t
+        <where>
+            <if test="type!=null and type!=''">
+                t.TYPE = #{type}
+            </if>
+            <if test="value!=null and value!=''">
+                and t.VALUE like #{value}||'%'
+            </if>
+        </where>
+        order by t.SORT
+    </select>
+
+    <select id="validDictUnique" resultType="boolean">
+        select case when count(a.id)=0 then 1 else 0 end
+        from SYS_DICT a
+        where a.TYPE=#{type} and a.VALUE=#{value}
+    </select>
+</mapper>
