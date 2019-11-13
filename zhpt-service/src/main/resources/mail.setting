@@ -1,0 +1,10 @@
+host = smtp.163.com
+port = 25
+
+from = hi_sunwen@163.com
+
+user = hi_sunwen
+
+pass = yx18228752972
+
+

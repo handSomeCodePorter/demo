@@ -11,7 +11,7 @@ spring:
     cros:
       allow-origin: 127.0.0.1,localhost
 server:
-  port: 8080
+  port: 8081
 
 eureka:
   client:
@@ -35,8 +35,8 @@ zhpt:
 
 mybatis:
   config-location: classpath:mybatis.cfg.xml
-  type-aliases-package: com.cloud.zhpt.entity
-  mapper-locations: classpath*:com/cloud/zhpt/Dao/mapper/*.xml
+  type-aliases-package: com.cloud.zhpt.*.entity
+  mapper-locations: classpath*:com/cloud/zhpt/*/*/mapper/*.xml
   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:

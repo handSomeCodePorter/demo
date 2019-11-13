@@ -26,20 +26,25 @@ public class CustomRunTimeException extends RuntimeException {
 
     private String code;
 
-    private String msg;
+    private String message;
 
-    public CustomRunTimeException(String code, String msg) {
+    private final String EX_PREFIX = "EX_";
+
+    public CustomRunTimeException(String code, String message) {
+        super();
         this.code = code;
-        this.msg = msg;
+        this.message = message;
+
     }
 
     public CustomRunTimeException(String code) {
+        super();
         Properties properties = new Properties();
 
         try {
-            Reader  in =new InputStreamReader(CustomRunTimeException.class.getClassLoader().getResourceAsStream("exception.properties"),"utf8");
+            Reader in = new InputStreamReader(CustomRunTimeException.class.getClassLoader().getResourceAsStream("exception.properties"), "utf8");
             properties.load(in);
-            this.msg = properties.getProperty(code);
+            this.message = properties.getProperty(EX_PREFIX + code);
 
         } catch (IOException e) {
             e.printStackTrace();

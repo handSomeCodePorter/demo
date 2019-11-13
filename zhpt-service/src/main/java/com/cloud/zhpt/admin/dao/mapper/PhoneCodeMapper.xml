@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.PhoneCodeDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.PhoneCode">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="CODE" jdbcType="DECIMAL" property="code"/>
+        <result column="TYPE" jdbcType="DECIMAL" property="type"/>
+        <result column="EXPIRES_TIME" jdbcType="TIMESTAMP" property="expiresTime"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        ID, PHONE, CODE, TYPE, EXPIRES_TIME, CREATE_TIME, MODIFY_TIME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_PHONE_CODE
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        delete from SYS_PHONE_CODE
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.PhoneCode">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_PHONE_CODE.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_PHONE_CODE (ID, PHONE, CODE,
+        TYPE, EXPIRES_TIME, CREATE_TIME,
+        MODIFY_TIME)
+        values (#{id,jdbcType=DECIMAL}, #{phone,jdbcType=VARCHAR}, #{code,jdbcType=DECIMAL},
+        #{type,jdbcType=DECIMAL}, #{expiresTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.PhoneCode">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_PHONE_CODE.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_PHONE_CODE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="phone != null">
+                PHONE,
+            </if>
+            <if test="code != null">
+                CODE,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="expiresTime != null">
+                EXPIRES_TIME,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=DECIMAL},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=DECIMAL},
+            </if>
+            <if test="expiresTime != null">
+                #{expiresTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.PhoneCode">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        update SYS_PHONE_CODE
+        <set>
+            <if test="phone != null">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                CODE = #{code,jdbcType=DECIMAL},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=DECIMAL},
+            </if>
+            <if test="expiresTime != null">
+                EXPIRES_TIME = #{expiresTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.PhoneCode">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-03 15:29:18
+        -->
+        update SYS_PHONE_CODE
+        set PHONE = #{phone,jdbcType=VARCHAR},
+        CODE = #{code,jdbcType=DECIMAL},
+        TYPE = #{type,jdbcType=DECIMAL},
+        EXPIRES_TIME = #{expiresTime,jdbcType=TIMESTAMP},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- ///////////////////////////////////////////////////////////// -->
+
+    <select id="getCodeByPhone" resultType="java.lang.Integer">
+        <![CDATA[
+
+        select * from (
+        select a.CODE
+        from SYS_PHONE_CODE a
+        where a.PHONE=#{phone} and a.TYPE=#{type} and sysdate<=EXPIRES_TIME
+        order by a.ID desc
+        ) where ROWNUM=1
+
+        ]]>
+    </select>
+</mapper>

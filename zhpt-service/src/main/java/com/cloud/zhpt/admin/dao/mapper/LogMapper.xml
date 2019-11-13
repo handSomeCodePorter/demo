@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.LogDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Log">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="USER_ORGAN" jdbcType="VARCHAR" property="userOrgan"/>
+        <result column="OPERATION_TIME" jdbcType="TIMESTAMP" property="operationTime"/>
+        <result column="TIME_CONSUMING" jdbcType="DECIMAL" property="timeConsuming"/>
+        <result column="REQUEST_URI" jdbcType="VARCHAR" property="requestUri"/>
+        <result column="METHOD" jdbcType="VARCHAR" property="method"/>
+        <result column="REMOTE_ADDR" jdbcType="VARCHAR" property="remoteAddr"/>
+        <result column="USER_AGENT" jdbcType="VARCHAR" property="userAgent"/>
+        <result column="USER_ID" jdbcType="DECIMAL" property="userId"/>
+        <result column="USER_ORGAN_ID" jdbcType="DECIMAL" property="userOrganId"/>
+        <result column="FROM_APP" jdbcType="DECIMAL" property="fromApp"/>
+        <result column="UVID" jdbcType="VARCHAR" property="uvid"/>
+        <result column="OS_NAME" jdbcType="VARCHAR" property="osName"/>
+        <result column="BROWSER_NAME" jdbcType="VARCHAR" property="browserName"/>
+        <result column="BROWSER_VERSION" jdbcType="VARCHAR" property="browserVersion"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cloud.zhpt.admin.entity.Log">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        <result column="PARAMS" jdbcType="CLOB" property="params"/>
+        <result column="EXCEPTION" jdbcType="CLOB" property="exception"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        ID, DESCRIPTION, USER_NAME, USER_ORGAN, OPERATION_TIME, TIME_CONSUMING, REQUEST_URI,
+        METHOD, REMOTE_ADDR, USER_AGENT, USER_ID, USER_ORGAN_ID, FROM_APP, UVID, OS_NAME,
+        BROWSER_NAME, BROWSER_VERSION
+    </sql>
+    <sql id="Blob_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        PARAMS, EXCEPTION
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from SYS_LOG
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        delete from SYS_LOG
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Log">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_LOG.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_LOG (ID, DESCRIPTION, USER_NAME,
+        USER_ORGAN, OPERATION_TIME, TIME_CONSUMING,
+        REQUEST_URI, METHOD, REMOTE_ADDR,
+        USER_AGENT, USER_ID, USER_ORGAN_ID,
+        FROM_APP, UVID, OS_NAME,
+        BROWSER_NAME, BROWSER_VERSION, PARAMS,
+        EXCEPTION)
+        values (#{id,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+        #{userOrgan,jdbcType=VARCHAR}, #{operationTime,jdbcType=TIMESTAMP}, #{timeConsuming,jdbcType=DECIMAL},
+        #{requestUri,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{remoteAddr,jdbcType=VARCHAR},
+        #{userAgent,jdbcType=VARCHAR}, #{userId,jdbcType=DECIMAL}, #{userOrganId,jdbcType=DECIMAL},
+        #{fromApp,jdbcType=DECIMAL}, #{uvid,jdbcType=VARCHAR}, #{osName,jdbcType=VARCHAR},
+        #{browserName,jdbcType=VARCHAR}, #{browserVersion,jdbcType=VARCHAR}, #{params,jdbcType=CLOB},
+        #{exception,jdbcType=CLOB})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Log">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_LOG.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_LOG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="userName != null">
+                USER_NAME,
+            </if>
+            <if test="userOrgan != null">
+                USER_ORGAN,
+            </if>
+            <if test="operationTime != null">
+                OPERATION_TIME,
+            </if>
+            <if test="timeConsuming != null">
+                TIME_CONSUMING,
+            </if>
+            <if test="requestUri != null">
+                REQUEST_URI,
+            </if>
+            <if test="method != null">
+                METHOD,
+            </if>
+            <if test="remoteAddr != null">
+                REMOTE_ADDR,
+            </if>
+            <if test="userAgent != null">
+                USER_AGENT,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="userOrganId != null">
+                USER_ORGAN_ID,
+            </if>
+            <if test="fromApp != null">
+                FROM_APP,
+            </if>
+            <if test="uvid != null">
+                UVID,
+            </if>
+            <if test="osName != null">
+                OS_NAME,
+            </if>
+            <if test="browserName != null">
+                BROWSER_NAME,
+            </if>
+            <if test="browserVersion != null">
+                BROWSER_VERSION,
+            </if>
+            <if test="params != null">
+                PARAMS,
+            </if>
+            <if test="exception != null">
+                EXCEPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userOrgan != null">
+                #{userOrgan,jdbcType=VARCHAR},
+            </if>
+            <if test="operationTime != null">
+                #{operationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="timeConsuming != null">
+                #{timeConsuming,jdbcType=DECIMAL},
+            </if>
+            <if test="requestUri != null">
+                #{requestUri,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null">
+                #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="remoteAddr != null">
+                #{remoteAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="userAgent != null">
+                #{userAgent,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=DECIMAL},
+            </if>
+            <if test="userOrganId != null">
+                #{userOrganId,jdbcType=DECIMAL},
+            </if>
+            <if test="fromApp != null">
+                #{fromApp,jdbcType=DECIMAL},
+            </if>
+            <if test="uvid != null">
+                #{uvid,jdbcType=VARCHAR},
+            </if>
+            <if test="osName != null">
+                #{osName,jdbcType=VARCHAR},
+            </if>
+            <if test="browserName != null">
+                #{browserName,jdbcType=VARCHAR},
+            </if>
+            <if test="browserVersion != null">
+                #{browserVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null">
+                #{params,jdbcType=CLOB},
+            </if>
+            <if test="exception != null">
+                #{exception,jdbcType=CLOB},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Log">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        update SYS_LOG
+        <set>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userOrgan != null">
+                USER_ORGAN = #{userOrgan,jdbcType=VARCHAR},
+            </if>
+            <if test="operationTime != null">
+                OPERATION_TIME = #{operationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="timeConsuming != null">
+                TIME_CONSUMING = #{timeConsuming,jdbcType=DECIMAL},
+            </if>
+            <if test="requestUri != null">
+                REQUEST_URI = #{requestUri,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null">
+                METHOD = #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="remoteAddr != null">
+                REMOTE_ADDR = #{remoteAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="userAgent != null">
+                USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=DECIMAL},
+            </if>
+            <if test="userOrganId != null">
+                USER_ORGAN_ID = #{userOrganId,jdbcType=DECIMAL},
+            </if>
+            <if test="fromApp != null">
+                FROM_APP = #{fromApp,jdbcType=DECIMAL},
+            </if>
+            <if test="uvid != null">
+                UVID = #{uvid,jdbcType=VARCHAR},
+            </if>
+            <if test="osName != null">
+                OS_NAME = #{osName,jdbcType=VARCHAR},
+            </if>
+            <if test="browserName != null">
+                BROWSER_NAME = #{browserName,jdbcType=VARCHAR},
+            </if>
+            <if test="browserVersion != null">
+                BROWSER_VERSION = #{browserVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null">
+                PARAMS = #{params,jdbcType=CLOB},
+            </if>
+            <if test="exception != null">
+                EXCEPTION = #{exception,jdbcType=CLOB},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cloud.zhpt.admin.entity.Log">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        update SYS_LOG
+        set DESCRIPTION = #{description,jdbcType=VARCHAR},
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+        USER_ORGAN = #{userOrgan,jdbcType=VARCHAR},
+        OPERATION_TIME = #{operationTime,jdbcType=TIMESTAMP},
+        TIME_CONSUMING = #{timeConsuming,jdbcType=DECIMAL},
+        REQUEST_URI = #{requestUri,jdbcType=VARCHAR},
+        METHOD = #{method,jdbcType=VARCHAR},
+        REMOTE_ADDR = #{remoteAddr,jdbcType=VARCHAR},
+        USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+        USER_ID = #{userId,jdbcType=DECIMAL},
+        USER_ORGAN_ID = #{userOrganId,jdbcType=DECIMAL},
+        FROM_APP = #{fromApp,jdbcType=DECIMAL},
+        UVID = #{uvid,jdbcType=VARCHAR},
+        OS_NAME = #{osName,jdbcType=VARCHAR},
+        BROWSER_NAME = #{browserName,jdbcType=VARCHAR},
+        BROWSER_VERSION = #{browserVersion,jdbcType=VARCHAR},
+        PARAMS = #{params,jdbcType=CLOB},
+        EXCEPTION = #{exception,jdbcType=CLOB}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Log">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-12-26 13:36:21
+        -->
+        update SYS_LOG
+        set DESCRIPTION = #{description,jdbcType=VARCHAR},
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+        USER_ORGAN = #{userOrgan,jdbcType=VARCHAR},
+        OPERATION_TIME = #{operationTime,jdbcType=TIMESTAMP},
+        TIME_CONSUMING = #{timeConsuming,jdbcType=DECIMAL},
+        REQUEST_URI = #{requestUri,jdbcType=VARCHAR},
+        METHOD = #{method,jdbcType=VARCHAR},
+        REMOTE_ADDR = #{remoteAddr,jdbcType=VARCHAR},
+        USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+        USER_ID = #{userId,jdbcType=DECIMAL},
+        USER_ORGAN_ID = #{userOrganId,jdbcType=DECIMAL},
+        FROM_APP = #{fromApp,jdbcType=DECIMAL},
+        UVID = #{uvid,jdbcType=VARCHAR},
+        OS_NAME = #{osName,jdbcType=VARCHAR},
+        BROWSER_NAME = #{browserName,jdbcType=VARCHAR},
+        BROWSER_VERSION = #{browserVersion,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- /////////////////////////////////////////////////////////////////////// -->
+
+    <select id="listLog" parameterType="com.cloud.zhpt.admin.dto.LogQuery" resultMap="BaseResultMap">
+        select a.* from SYS_LOG a
+        <where>
+            <if test="userName != null and userName !=''">
+                a.USER_NAME like '%'||#{userName}||'%'
+            </if>
+            <if test="remoteAddr != null and remoteAddr !=''">
+                and a.REMOTE_ADDR like '%'||#{remoteAddr}||'%'
+            </if>
+            <if test="startTime != null">
+                <![CDATA[ and a.OPERATION_TIME > ]]> #{startTime}
+            </if>
+            <if test="endTime != null">
+                <![CDATA[ and a.OPERATION_TIME < ]]>#{endTime} + 1
+            </if>
+            <if test="queryException == true">
+                and a.EXCEPTION is not null
+            </if>
+        </where>
+        order by a.OPERATION_TIME desc,a.ID desc
+    </select>
+
+    <select id="getLogById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select a.* from SYS_LOG a
+        where a.ID = #{id}
+    </select>
+
+    <update id="updateUAInfo">
+        update SYS_LOG set OS_NAME = #{osName},BROWSER_NAME = #{browserName},BROWSER_VERSION= #{browserVersion} where id = #{id}
+    </update>
+
+    <select id="getLogTotalCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(a.id) from SYS_LOG a
+    </select>
+
+    <select id="listPagedLog" resultMap="BaseResultMap">
+       select * from ( select a.*,ROWNUM as rn   from sys_log a) a
+       where a.rn BETWEEN #{startRowNo} and #{endRowNO}
+    </select>
+
+
+</mapper>

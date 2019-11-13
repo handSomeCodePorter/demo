@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.UploadFileDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.UploadFile">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="UUID" jdbcType="VARCHAR" property="uuid"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="SUFFIX" jdbcType="VARCHAR" property="suffix"/>
+        <result column="PATH" jdbcType="VARCHAR" property="path"/>
+        <result column="SIZEB" jdbcType="DECIMAL" property="sizeb"/>
+        <result column="SIZEM" jdbcType="VARCHAR" property="sizem"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        ID, UUID, NAME, SUFFIX, PATH, SIZEB, SIZEM, CREATE_TIME, MODIFY_TIME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_UPLOAD_FILE
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        delete from SYS_UPLOAD_FILE
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.UploadFile">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_UPLOAD_FILE.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_UPLOAD_FILE (ID, UUID, NAME,
+        SUFFIX, PATH, SIZEB,
+        SIZEM, CREATE_TIME, MODIFY_TIME
+        )
+        values (#{id,jdbcType=DECIMAL}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+        #{suffix,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{sizeb,jdbcType=DECIMAL},
+        #{sizem,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.UploadFile">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_UPLOAD_FILE.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_UPLOAD_FILE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="uuid != null">
+                UUID,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="suffix != null">
+                SUFFIX,
+            </if>
+            <if test="path != null">
+                PATH,
+            </if>
+            <if test="sizeb != null">
+                SIZEB,
+            </if>
+            <if test="sizem != null">
+                SIZEM,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="uuid != null">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="suffix != null">
+                #{suffix,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="sizeb != null">
+                #{sizeb,jdbcType=DECIMAL},
+            </if>
+            <if test="sizem != null">
+                #{sizem,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.UploadFile">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        update SYS_UPLOAD_FILE
+        <set>
+            <if test="uuid != null">
+                UUID = #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="suffix != null">
+                SUFFIX = #{suffix,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                PATH = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="sizeb != null">
+                SIZEB = #{sizeb,jdbcType=DECIMAL},
+            </if>
+            <if test="sizem != null">
+                SIZEM = #{sizem,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.UploadFile">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-05-18 20:09:32
+        -->
+        update SYS_UPLOAD_FILE
+        set UUID = #{uuid,jdbcType=VARCHAR},
+        NAME = #{name,jdbcType=VARCHAR},
+        SUFFIX = #{suffix,jdbcType=VARCHAR},
+        PATH = #{path,jdbcType=VARCHAR},
+        SIZEB = #{sizeb,jdbcType=DECIMAL},
+        SIZEM = #{sizem,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- ////////////////////////////////////////////////////////// -->
+
+    <select id="getFileByUUID" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from SYS_UPLOAD_FILE where UUID = #{uuid}
+    </select>
+
+    <select id="getFileUUIDById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select a.UUID from SYS_UPLOAD_FILE a where a.ID=#{id}
+    </select>
+</mapper>

@@ -44,7 +44,8 @@ public class CrosFilter implements Filter {
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 
-        filterChain.doFilter(request, httpServletResponse);
+
+        filterChain.doFilter(servletRequest, httpServletResponse);
 
     }
 

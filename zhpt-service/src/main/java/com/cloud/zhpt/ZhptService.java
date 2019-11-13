@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @ClassName Auth
@@ -18,11 +19,12 @@ import org.springframework.context.annotation.PropertySource;
  **/
 @PropertySource("classpath:${zhpt.cloud.resources.jdbc.locations}")
 @PropertySource("classpath:${zhpt.cloud.resources.redis.locations}")
-@MapperScan(basePackages = "com.cloud.zhpt.Dao")
+@MapperScan(basePackages = "com.cloud.zhpt.*.dao")
 @EnableEurekaClient
 @EnableCaching
 @ServletComponentScan
 @SpringBootApplication
+@EnableTransactionManagement
 public class ZhptService {
     private static Logger logger = LoggerFactory.getLogger(ZhptService.class);
     public static void main(String[] args) {

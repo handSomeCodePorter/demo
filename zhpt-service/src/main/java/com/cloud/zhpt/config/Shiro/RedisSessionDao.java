@@ -34,6 +34,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
         super();
         this.expireTime = expireTime;
         this.redisTemplate = redisTemplate;
+
     }
 
     @Override // 更新session

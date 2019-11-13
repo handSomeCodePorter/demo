@@ -17,7 +17,7 @@ public class MybatisGenerator {
         //是否覆盖已存在的文件
         boolean overwrite = false;
 
-        File configFile = new File(MybatisGenerator.class.getClassLoader().getResource("./generatorConfig.xml").getFile());
+        File configFile = new File(MybatisGenerator.class.getClassLoader().getResource("./generatorConfig-mail.xml").getFile());
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
 //        CommentGeneratorConfiguration commentGeneratorCfg = new CommentGeneratorConfiguration();

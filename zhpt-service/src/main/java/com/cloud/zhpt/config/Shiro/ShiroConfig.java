@@ -2,6 +2,7 @@ package com.cloud.zhpt.config.Shiro;
 
 
 import cn.hutool.core.codec.Base64;
+import com.cloud.zhpt.Utils.RedisCacheUtils;
 import com.cloud.zhpt.config.cache.RedisCacheManager;
 import com.cloud.zhpt.config.filter.CustomAuthFilter;
 import com.cloud.zhpt.config.filter.CustomLoginFilter;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -55,7 +57,7 @@ public class ShiroConfig {
 
         shiroFilterFactoryBean.setLoginUrl("/unAuth");
         // 设置无权限时跳转的 url;
-        /* shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");*/
+        /*  shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");*/
         // 设置拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //游客，开发权限
@@ -68,13 +70,16 @@ public class ShiroConfig {
         //websocket 开放权限
         filterChainDefinitionMap.put("/websocket/**", "anon");
         //用户，需要角色权限 “user”
-        filterChainDefinitionMap.put("/user/**", "roles[user]");
+        /*   filterChainDefinitionMap.put("/user/**", "roles[user]");*/
         //管理员，需要角色权限 “admin”
-        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
+        /*    filterChainDefinitionMap.put("/admin/**", "roles[admin]");*/
         //开放登陆接口
         filterChainDefinitionMap.put("/login", "anon");
+
         filterChainDefinitionMap.put("/unAuth", "anon");
-        filterChainDefinitionMap.put("/logout", "logout");
+
+        filterChainDefinitionMap.put("/upload", "anon");
+        /* filterChainDefinitionMap.put("/logout", "logout");*/
 
         //其余接口一律拦截 主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截 customLoginFilter,customAuthFilter,
         filterChainDefinitionMap.put("/**", "authc");
@@ -218,4 +223,10 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
+    @Bean
+    public RedisCacheUtils redisCacheUtils(RedisTemplate redisTemplate) {
+        RedisCacheUtils redisCacheUtils = new RedisCacheUtils();
+        redisCacheUtils.setRedisTemplate(redisTemplate);
+        return redisCacheUtils;
+    }
 }

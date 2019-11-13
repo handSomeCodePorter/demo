@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.OrganDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Organ">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="MAIN_DIRECTOR_ID" jdbcType="DECIMAL" property="mainDirectorId"/>
+        <result column="MANAGER_ID" jdbcType="DECIMAL" property="managerId"/>
+        <result column="LIAISON_ID" jdbcType="DECIMAL" property="liaisonId"/>
+        <result column="DIRECTOR" jdbcType="VARCHAR" property="director"/>
+        <result column="DIRECTOR_PHONE" jdbcType="VARCHAR" property="directorPhone"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="SORT" jdbcType="DECIMAL" property="sort"/>
+        <result column="SPELL_FIRST" jdbcType="VARCHAR" property="spellFirst"/>
+        <result column="SPELL_FULL" jdbcType="VARCHAR" property="spellFull"/>
+        <result column="USEABLE" jdbcType="DECIMAL" property="useable"/>
+        <result column="EDUCABLE" jdbcType="DECIMAL" property="educable"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="AREA_ID" jdbcType="DECIMAL" property="areaId"/>
+        <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId"/>
+        <result column="DELETED" jdbcType="DECIMAL" property="deleted"/>
+        <result column="HR_NO" jdbcType="VARCHAR" property="hrNo"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        ID, NAME, CODE, TYPE, MAIN_DIRECTOR_ID, MANAGER_ID, LIAISON_ID, DIRECTOR, DIRECTOR_PHONE,
+        REMARK, SORT, SPELL_FIRST, SPELL_FULL, USEABLE, EDUCABLE, CREATE_TIME, MODIFY_TIME,
+        AREA_ID, PARENT_ID, DELETED, HR_NO
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_ORGAN
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        delete from SYS_ORGAN
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Organ">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select NEXT_VAL('sys_organ')
+        </selectKey>
+        insert into SYS_ORGAN (ID, NAME, CODE,
+        TYPE, MAIN_DIRECTOR_ID, MANAGER_ID,
+        LIAISON_ID, DIRECTOR, DIRECTOR_PHONE,
+        REMARK, SORT, SPELL_FIRST,
+        SPELL_FULL, USEABLE, EDUCABLE,
+        CREATE_TIME, MODIFY_TIME, AREA_ID,
+        PARENT_ID, DELETED, HR_NO
+        )
+        values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+        #{type,jdbcType=VARCHAR}, #{mainDirectorId,jdbcType=DECIMAL}, #{managerId,jdbcType=DECIMAL},
+        #{liaisonId,jdbcType=DECIMAL}, #{director,jdbcType=VARCHAR}, #{directorPhone,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, #{spellFirst,jdbcType=VARCHAR},
+        #{spellFull,jdbcType=VARCHAR}, #{useable,jdbcType=DECIMAL}, #{educable,jdbcType=DECIMAL},
+        #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{areaId,jdbcType=DECIMAL},
+        #{parentId,jdbcType=DECIMAL}, #{deleted,jdbcType=DECIMAL}, #{hrNo,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Organ">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select NEXT_VAL('sys_organ')
+        </selectKey>
+        insert into SYS_ORGAN
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="code != null">
+                CODE,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="mainDirectorId != null">
+                MAIN_DIRECTOR_ID,
+            </if>
+            <if test="managerId != null">
+                MANAGER_ID,
+            </if>
+            <if test="liaisonId != null">
+                LIAISON_ID,
+            </if>
+            <if test="director != null">
+                DIRECTOR,
+            </if>
+            <if test="directorPhone != null">
+                DIRECTOR_PHONE,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="sort != null">
+                SORT,
+            </if>
+            <if test="spellFirst != null">
+                SPELL_FIRST,
+            </if>
+            <if test="spellFull != null">
+                SPELL_FULL,
+            </if>
+            <if test="useable != null">
+                USEABLE,
+            </if>
+            <if test="educable != null">
+                EDUCABLE,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+            <if test="areaId != null">
+                AREA_ID,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+            <if test="deleted != null">
+                DELETED,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="mainDirectorId != null">
+                #{mainDirectorId,jdbcType=DECIMAL},
+            </if>
+            <if test="managerId != null">
+                #{managerId,jdbcType=DECIMAL},
+            </if>
+            <if test="liaisonId != null">
+                #{liaisonId,jdbcType=DECIMAL},
+            </if>
+            <if test="director != null">
+                #{director,jdbcType=VARCHAR},
+            </if>
+            <if test="directorPhone != null">
+                #{directorPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="spellFirst != null">
+                #{spellFirst,jdbcType=VARCHAR},
+            </if>
+            <if test="spellFull != null">
+                #{spellFull,jdbcType=VARCHAR},
+            </if>
+            <if test="useable != null">
+                #{useable,jdbcType=DECIMAL},
+            </if>
+            <if test="educable != null">
+                #{educable,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="areaId != null">
+                #{areaId,jdbcType=DECIMAL},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=DECIMAL},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Organ">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        update SYS_ORGAN
+        <set>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                CODE = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="mainDirectorId != null">
+                MAIN_DIRECTOR_ID = #{mainDirectorId,jdbcType=DECIMAL},
+            </if>
+            <if test="managerId != null">
+                MANAGER_ID = #{managerId,jdbcType=DECIMAL},
+            </if>
+            <if test="liaisonId != null">
+                LIAISON_ID = #{liaisonId,jdbcType=DECIMAL},
+            </if>
+            <if test="director != null">
+                DIRECTOR = #{director,jdbcType=VARCHAR},
+            </if>
+            <if test="directorPhone != null">
+                DIRECTOR_PHONE = #{directorPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                SORT = #{sort,jdbcType=DECIMAL},
+            </if>
+            <if test="spellFirst != null">
+                SPELL_FIRST = #{spellFirst,jdbcType=VARCHAR},
+            </if>
+            <if test="spellFull != null">
+                SPELL_FULL = #{spellFull,jdbcType=VARCHAR},
+            </if>
+            <if test="useable != null">
+                USEABLE = #{useable,jdbcType=DECIMAL},
+            </if>
+            <if test="educable != null">
+                EDUCABLE = #{educable,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="areaId != null">
+                AREA_ID = #{areaId,jdbcType=DECIMAL},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=DECIMAL},
+            </if>
+            <if test="deleted != null">
+                DELETED = #{deleted,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Organ">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-12-05 10:34:12
+        -->
+        update SYS_ORGAN
+        set NAME = #{name,jdbcType=VARCHAR},
+        CODE = #{code,jdbcType=VARCHAR},
+        TYPE = #{type,jdbcType=VARCHAR},
+        MAIN_DIRECTOR_ID = #{mainDirectorId,jdbcType=DECIMAL},
+        MANAGER_ID = #{managerId,jdbcType=DECIMAL},
+        LIAISON_ID = #{liaisonId,jdbcType=DECIMAL},
+        DIRECTOR = #{director,jdbcType=VARCHAR},
+        DIRECTOR_PHONE = #{directorPhone,jdbcType=VARCHAR},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        SORT = #{sort,jdbcType=DECIMAL},
+        SPELL_FIRST = #{spellFirst,jdbcType=VARCHAR},
+        SPELL_FULL = #{spellFull,jdbcType=VARCHAR},
+        USEABLE = #{useable,jdbcType=DECIMAL},
+        EDUCABLE = #{educable,jdbcType=DECIMAL},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+        AREA_ID = #{areaId,jdbcType=DECIMAL},
+        PARENT_ID = #{parentId,jdbcType=DECIMAL},
+        DELETED = #{deleted,jdbcType=DECIMAL},
+        HR_NO = #{hrNo,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <resultMap extends="BaseResultMap" id="OrganResultMap" type="com.cloud.zhpt.admin.entity.Organ">
+        <result column="ORGAN_LEVEL" jdbcType="DECIMAL" property="organLevel"/>
+        <result column="LEAF" jdbcType="DECIMAL" property="leaf"/>
+        <result column="PATH_NAME" jdbcType="VARCHAR" property="pathName"/>
+        <result column="ROOT_ID" jdbcType="DECIMAL" property="rootId"/>
+        <result column="ROOT_NAME" jdbcType="VARCHAR" property="rootName"/>
+        <result column="PARENT_NAME" jdbcType="VARCHAR" property="parentName"/>
+        <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName"/>
+        <result column="MAIN_DIRECTOR_NAME" jdbcType="VARCHAR" property="mainDirectorName"/>
+        <result column="MANAGER_NAME" jdbcType="VARCHAR" property="managerName"/>
+        <result column="LIAISON_NAME" jdbcType="VARCHAR" property="liaisonName"/>
+        <result column="LIAISON_LOGIN_NAME" jdbcType="VARCHAR" property="liaisonLoginName"/>
+        <result column="PERSON_TOTAL_COUNT" jdbcType="DECIMAL" property="personTotalCount"/>
+        <result column="PERSON_EDU_SCOPE_COUNT" jdbcType="DECIMAL" property="personEduScopeCount"/>
+    </resultMap>
+
+    <select id="listOrgan" resultMap="OrganResultMap">
+        select a.*, c.NAME as MAIN_DIRECTOR_NAME,d.NAME as MANAGER_NAME,f.NAME as LIAISON_NAME
+        from SYS_ORGAN a
+        left join SYS_USER c on a.MAIN_DIRECTOR_ID = c.ID
+        left join SYS_USER d on a.MANAGER_ID = d.ID
+        left join SYS_USER f on a.LIAISON_ID = f.ID
+        where a.DELETED=0
+        order by a.sort asc
+    </select>
+
+    <select id="getOrganById" parameterType="java.lang.Integer" resultMap="OrganResultMap">
+        select a.*, c.name as MAIN_DIRECTOR_NAME,d.NAME as MANAGER_NAME,
+        f.NAME as LIAISON_NAME,f.LOGIN_NAME as LIAISON_LOGIN_NAME
+        from SYS_ORGAN a
+        left join SYS_USER c on a.MAIN_DIRECTOR_ID=c.ID
+        left join SYS_USER d on a.MANAGER_ID = d.ID
+        left join SYS_USER f on a.LIAISON_ID = f.ID
+        where a.ID = #{id}
+    </select>
+
+    <select id="getOrganByUserLoginName" parameterType="java.lang.String" resultMap="OrganResultMap">
+        select a.*
+        from SYS_ORGAN_VIEW a
+        inner join SYS_USER b on (a.ID = b.ORGAN_ID and b.DELETED=0)
+        where b.LOGIN_NAME = #{loginName}
+    </select>
+
+    <select id="listOrganByParentId" parameterType="java.lang.Integer" resultMap="OrganResultMap">
+        select m.* from SYS_ORGAN_VIEW m where m.DELETED=0 start with m.ID = #{id} connect by m.PARENT_ID=prior m.ID order by m.RN asc
+    </select>
+
+    <update id="updateUseableBatch">
+        update SYS_ORGAN set USEABLE = #{useable} where ID in
+        <foreach close=")" collection="ids" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="getMaxSort" resultType="java.lang.Integer">
+        select MAX(a.SORT) sort from SYS_ORGAN_VIEW a
+        where a.DELETED=0 and a.ORGAN_LEVEL = #{level}
+        <if test="parentId != null">
+            and a.PARENT_ID = #{parentId}
+        </if>
+    </select>
+
+    <select id="listUseableOrgan" resultMap="OrganResultMap">
+        select a.*, b.NAME as AREA_NAME, c.NAME as MAIN_DIRECTOR_NAME,d.NAME as MANAGER_NAME,f.NAME as LIAISON_NAME
+        from SYS_ORGAN_VIEW a
+        left join SYS_AREA_VIEW b on a.AREA_ID = b.ID
+        left join SYS_USER c on a.MAIN_DIRECTOR_ID = c.ID
+        left join SYS_USER d on a.MANAGER_ID = d.ID
+        left join SYS_USER f on a.LIAISON_ID = f.ID
+        where a.USEABLE=1 and a.DELETED=0
+        order by a.RN asc
+    </select>
+
+    <select id="listUseableOrganByRootId" parameterType="java.lang.Integer" resultMap="OrganResultMap">
+        select a.*, b.NAME as AREA_NAME, c.NAME as MAIN_DIRECTOR_NAME,d.NAME as MANAGER_NAME,f.NAME as LIAISON_NAME
+        from SYS_ORGAN_VIEW a
+        left join SYS_AREA_VIEW b on a.AREA_ID = b.ID
+        left join SYS_USER c on a.MAIN_DIRECTOR_ID = c.ID
+        left join SYS_USER d on a.MANAGER_ID = d.ID
+        left join SYS_USER f on a.LIAISON_ID = f.ID
+        where a.USEABLE=1 and a.DELETED=0
+        and (a.ROOT_ID= #{rootOrganId} )
+        order by a.RN asc
+    </select>
+
+    <select id="listUseableRootOrgan" resultMap="OrganResultMap">
+        select a.*, b.NAME as AREA_NAME, c.NAME as MAIN_DIRECTOR_NAME,d.NAME as MANAGER_NAME,f.NAME as LIAISON_NAME
+        from SYS_ORGAN_VIEW a
+        left join SYS_AREA_VIEW b on a.AREA_ID = b.ID
+        left join SYS_USER c on a.MAIN_DIRECTOR_ID = c.ID
+        left join SYS_USER d on a.MANAGER_ID = d.ID
+        left join SYS_USER f on a.LIAISON_ID = f.ID
+        where a.USEABLE=1 and a.DELETED=0 and a.PARENT_ID is null
+        order by a.RN asc
+    </select>
+
+    <select id="getMainDirectorUser" parameterType="java.lang.Integer" resultMap="com.cloud.zhpt.admin.dao.UserDao.UserResultMap">
+        select b.* from SYS_ORGAN_VIEW a
+        inner join SYS_USER b on(a.MAIN_DIRECTOR_ID=b.id)
+        where a.ID = #{organId} and b.DELETED=0
+    </select>
+
+    <select id="getManagerUser" parameterType="java.lang.Integer" resultMap="com.cloud.zhpt.admin.dao.UserDao.UserResultMap">
+        select b.* from SYS_ORGAN_VIEW a
+        inner join SYS_USER b on(a.MANAGER_ID=b.id)
+        where a.ID = #{organId} and b.DELETED=0
+    </select>
+
+    <select id="getOrganTypeById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select a.TYPE from SYS_ORGAN_VIEW a where a.ID = #{id}
+    </select>
+
+    <select id="listOrganInEdu" resultMap="OrganResultMap">
+        select a.* from SYS_ORGAN_VIEW a
+        where a.EDUCABLE=1 and a.DELETED=0 and a.PARENT_ID is null and a.TYPE!='3'
+        order by a.RN asc
+    </select>
+
+    <!-- 排序编号为000001的机构，该机构为集团领导，不参与廉政教育的统计 排除外部单位-->
+    <select id="listOrganInEduFiltrate" resultMap="OrganResultMap">
+        select a.* from SYS_ORGAN_VIEW a
+        where a.EDUCABLE=1 and a.DELETED=0 and a.PARENT_ID is null and a.CODE != '000001' and a.TYPE != '3'
+        order by a.RN asc
+    </select>
+
+    <select id="listSubOrganInEdu" resultMap="OrganResultMap">
+        select a.* from SYS_ORGAN_VIEW a
+        where a.EDUCABLE = 1 and a.DELETED=0 and a.PARENT_ID is not null and a.TYPE!='3'
+        order by a.RN asc
+    </select>
+
+    <select id="listManagerOrganByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select a.* from SYS_ORGAN_VIEW a
+        where a.MANAGER_ID = #{userId} and a.DELETED=0 and a.USEABLE = 1 and a.TYPE != '3'
+    </select>
+
+    <select id="listAppointedOrganByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select a.* from SYS_ORGAN_VIEW a
+        where a.MAIN_DIRECTOR_ID = #{userId} and a.DELETED = 0 and a.USEABLE = 1 and a.PARENT_ID is null and a.TYPE != '3'
+    </select>
+
+    <select id="listRootOrgan" resultMap="OrganResultMap">
+        select a.* from SYS_ORGAN_VIEW a where a.PARENT_ID is null and a.USEABLE=1 order by a.RN asc
+    </select>
+
+    <select id="listChildOrganByOrganId" parameterType="java.lang.Integer" resultMap="OrganResultMap">
+        select a.* from SYS_ORGAN_VIEW a where a.PARENT_ID=#{organId} and a.DELETED=0 and a.USEABLE=1 order by a.RN asc
+    </select>
+
+    <select id="listChildOrganInEduByOrganId" parameterType="java.lang.Integer" resultMap="OrganResultMap">
+        select a.* from SYS_ORGAN_VIEW a where a.PARENT_ID=#{organId} and a.DELETED=0 and a.USEABLE=1 and a.EDUCABLE=1 and a.TYPE != '3' order by a.RN asc
+    </select>
+
+    <select id="getOrganByNameAndParentName" resultMap="OrganResultMap">
+        select a.* from SYS_ORGAN_VIEW a
+        where a.NAME=#{name} and a.PARENT_NAME=#{parentName}
+        and a.DELETED=0
+    </select>
+
+    <select id="getOrganIdByOrganName" resultType="java.lang.Integer">
+        select a.ID from SYS_ORGAN_VIEW a
+        where a.NAME=#{name} and a.ORGAN_LEVEL=1
+        and a.DELETED=0
+    </select>
+
+    <update id="updateOrganManager" parameterType="java.lang.Integer">
+        update SYS_ORGAN set MANAGER_ID=null where MANAGER_ID=#{userId}
+    </update>
+
+    <update id="updateOrganMainDirector" parameterType="java.lang.Integer">
+        update SYS_ORGAN set MAIN_DIRECTOR_ID=null where MAIN_DIRECTOR_ID=#{userId}
+    </update>
+
+    <update id="updateOrganLiaison" parameterType="java.lang.Integer">
+        update SYS_ORGAN set LIAISON_ID=null where LIAISON_ID=#{userId}
+    </update>
+
+    <select id="listOrganByName" resultMap="OrganResultMap">
+        select m.* from SYS_ORGAN_VIEW m
+        where m.DELETED=0 and m.USEABLE=1
+        start with m.NAME like '%'||#{organName}||'%' connect by prior m.PARENT_ID=m.ID order by m.RN asc
+    </select>
+
+    <update id="updateOrganDeletedById">
+        update SYS_ORGAN
+        set DELETED = #{deleted}
+        where ID = #{id}
+    </update>
+
+    <select id="listOrganIdByMainDirectorId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select a.ID from SYS_ORGAN_VIEW a where a.MAIN_DIRECTOR_ID = #{mainDirectorId}
+    </select>
+
+    <select id="getOrganByCode" resultMap="BaseResultMap">
+      select * from  SYS_ORGAN_VIEW a
+      where a.code=#{code}
+    </select>
+
+    <select id="getOrganByHrNo" parameterType="java.lang.String" resultMap="OrganResultMap">
+        select * from SYS_ORGAN_VIEW where HR_NO = #{hrNo}
+    </select>
+
+    <update id="disableAllOrgan">
+        update SYS_ORGAN set USEABLE=0
+    </update>
+</mapper>

@@ -1,8 +1,8 @@
 package com.cloud.zhpt.config.Shiro;
 
 import cn.hutool.crypto.SecureUtil;
-import com.cloud.zhpt.Service.UserService;
-import com.cloud.zhpt.entity.User;
+import com.cloud.zhpt.admin.Service.UserService;
+import com.cloud.zhpt.admin.entity.User;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

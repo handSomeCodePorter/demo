@@ -111,13 +111,13 @@
 		<logger name="java.sql.ResultSet">
 			<level value="DEBUG"></level>
 		</logger>
-		<logger name="com.cloud.zhpt.Dao">
+        <logger name="com.cloud.zhpt.*.dao">
 			<level value="DEBUG"></level>
 		</logger>
 
-		<root level="info">
+        <root level="INFO">
 			<appender-ref ref="Console"/>
-            <appender-ref ref="webSocketLog"/>
+            <!--  <appender-ref ref="webSocketLog"/>-->
 		<!--	<appender-ref ref="Filelog"/>-->
 			<appender-ref ref="RollingFileInfo"/>
 

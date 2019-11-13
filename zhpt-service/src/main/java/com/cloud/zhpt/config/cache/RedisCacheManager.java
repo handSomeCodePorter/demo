@@ -1,6 +1,6 @@
 package com.cloud.zhpt.config.cache;
 
-import com.cloud.zhpt.dto.UserDto;
+import com.cloud.zhpt.admin.dto.UserDto;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;

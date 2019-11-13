@@ -23,6 +23,8 @@ zuul:
       serviceId: zhpt-service
       stripPrefix: false  #去除path中的前缀 zhpt-service
       custom-sensitive-headers: true
+
+
   sensitive-headers:
 
 

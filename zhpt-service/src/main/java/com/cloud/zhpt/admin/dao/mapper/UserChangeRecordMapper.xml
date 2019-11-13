@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.UserChangeRecordDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.UserChangeRecord">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="HISTORY_LOGIN_NAME" jdbcType="VARCHAR" property="historyLoginName"/>
+        <result column="NOW_LOGIN_NAME" jdbcType="VARCHAR" property="nowLoginName"/>
+        <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        ID, HISTORY_LOGIN_NAME, NOW_LOGIN_NAME, CREATE_TIME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_USER_CHANGERECORD
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        delete from SYS_USER_CHANGERECORD
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.UserChangeRecord">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Short">
+            select SEQ_SYS_USER_CHANGERECORD.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_USER_CHANGERECORD (ID, HISTORY_LOGIN_NAME, NOW_LOGIN_NAME,
+        CREATE_TIME)
+        values (#{id,jdbcType=DECIMAL}, #{historyLoginName,jdbcType=VARCHAR}, #{nowLoginName,jdbcType=VARCHAR},
+        #{createTime,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.UserChangeRecord">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Short">
+            select SEQ_SYS_USER_CHANGERECORD.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_USER_CHANGERECORD
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="historyLoginName != null">
+                HISTORY_LOGIN_NAME,
+            </if>
+            <if test="nowLoginName != null">
+                NOW_LOGIN_NAME,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="historyLoginName != null">
+                #{historyLoginName,jdbcType=VARCHAR},
+            </if>
+            <if test="nowLoginName != null">
+                #{nowLoginName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.UserChangeRecord">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        update SYS_USER_CHANGERECORD
+        <set>
+            <if test="historyLoginName != null">
+                HISTORY_LOGIN_NAME = #{historyLoginName,jdbcType=VARCHAR},
+            </if>
+            <if test="nowLoginName != null">
+                NOW_LOGIN_NAME = #{nowLoginName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.UserChangeRecord">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-09-17 19:06:41
+        -->
+        update SYS_USER_CHANGERECORD
+        set HISTORY_LOGIN_NAME = #{historyLoginName,jdbcType=VARCHAR},
+        NOW_LOGIN_NAME = #{nowLoginName,jdbcType=VARCHAR},
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <select id="getTopUserChangeRecordByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+         SELECT * FROM (
+             SELECT
+               a.*,ROWNUM RN
+             from SYS_USER_CHANGERECORD a WHERE a.NOW_LOGIN_NAME=#{loginName} order by id desc )
+             <![CDATA[
+              WHERE RN<2
+        ]]>
+    </select>
+
+
+</mapper>

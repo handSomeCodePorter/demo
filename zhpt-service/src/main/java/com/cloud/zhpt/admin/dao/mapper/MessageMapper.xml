@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.MessageDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Message">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        <id column="ID" jdbcType="DECIMAL" property="id"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+        <result column="RECEIVED_BY" jdbcType="DECIMAL" property="receivedBy"/>
+        <result column="READ" jdbcType="DECIMAL" property="read"/>
+        <result column="EXP_DATE" jdbcType="TIMESTAMP" property="expDate"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        ID, TYPE, CONTENT, RECEIVED_BY, READ, EXP_DATE, CREATE_TIME, MODIFY_TIME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_MESSAGE
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        delete from SYS_MESSAGE
+        where ID = #{id,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Message">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_MESSAGE.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_MESSAGE (ID, TYPE, CONTENT,
+        RECEIVED_BY, READ, EXP_DATE,
+        CREATE_TIME, MODIFY_TIME)
+        values (#{id,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+        #{receivedBy,jdbcType=DECIMAL}, #{read,jdbcType=DECIMAL}, #{expDate,jdbcType=TIMESTAMP},
+        #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Message">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select SEQ_SYS_MESSAGE.NEXTVAL from dual
+        </selectKey>
+        insert into SYS_MESSAGE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="content != null">
+                CONTENT,
+            </if>
+            <if test="receivedBy != null">
+                RECEIVED_BY,
+            </if>
+            <if test="read != null">
+                READ,
+            </if>
+            <if test="expDate != null">
+                EXP_DATE,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id,jdbcType=DECIMAL},
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="receivedBy != null">
+                #{receivedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="read != null">
+                #{read,jdbcType=DECIMAL},
+            </if>
+            <if test="expDate != null">
+                #{expDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Message">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        update SYS_MESSAGE
+        <set>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="receivedBy != null">
+                RECEIVED_BY = #{receivedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="read != null">
+                READ = #{read,jdbcType=DECIMAL},
+            </if>
+            <if test="expDate != null">
+                EXP_DATE = #{expDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Message">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2017-08-14 14:08:52
+        -->
+        update SYS_MESSAGE
+        set TYPE = #{type,jdbcType=VARCHAR},
+        CONTENT = #{content,jdbcType=VARCHAR},
+        RECEIVED_BY = #{receivedBy,jdbcType=DECIMAL},
+        READ = #{read,jdbcType=DECIMAL},
+        EXP_DATE = #{expDate,jdbcType=TIMESTAMP},
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!-- /////////////////////////////////////////////////////// -->
+
+    <select id="listMessageByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select a.* from SYS_MESSAGE a where a.RECEIVED_BY=#{userId} order by a.READ, a.CREATE_TIME desc
+    </select>
+
+    <select id="listUnreadMessageByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select a.* from SYS_MESSAGE a
+        where a.RECEIVED_BY=#{userId} and a.EXP_DATE>=sysdate and a.read=0
+        order by a.CREATE_TIME desc
+    </select>
+
+    <select id="listMessage" parameterType="com.cloud.zhpt.admin.dto.MessageQuery" resultMap="BaseResultMap">
+        select a.* from SYS_MESSAGE a
+        <where>
+            <if test="type!=null and type!=''">
+                a.TYPE = #{type}
+            </if>
+            <if test="receivedBy!=null">
+                and a.RECEIVED_BY = #{receivedBy}
+            </if>
+        </where>
+        order by a.READ,a.CREATE_TIME desc
+    </select>
+
+    <update id="updateMessageReadedBatch">
+        update SYS_MESSAGE
+        set READ = 1
+        where ID in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

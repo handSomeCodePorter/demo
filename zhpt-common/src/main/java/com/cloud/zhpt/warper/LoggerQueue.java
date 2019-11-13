@@ -1,8 +1,7 @@
 package com.cloud.zhpt.warper;
 
 
-
-import com.cloud.zhpt.dto.LoggerMsg;
+import com.cloud.zhpt.admin.dto.LoggerMsg;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

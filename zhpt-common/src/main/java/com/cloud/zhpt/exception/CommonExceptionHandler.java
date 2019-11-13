@@ -22,13 +22,14 @@ public class CommonExceptionHandler {
 
     protected final Logger logger = LoggerFactory.getLogger(CommonExceptionHandler.class);
 
-    @ExceptionHandler(CustomRunTimeException.class)
+
+    @ExceptionHandler(value = {CustomRunTimeException.class})
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> handleCustomException(CustomRunTimeException ex) {
-        logger.info("CustomRunTimeException: " + HttpStatus.INTERNAL_SERVER_ERROR , ex);
         Map<String, Object> errorResultMap = new HashMap<>(16);
+        errorResultMap.put("status", HttpResult.FAILED);
         errorResultMap.put("code", ex.getCode());
-        errorResultMap.put("message", ex.getMessage());
+        errorResultMap.put("msg", ex.getMessage());
         return errorResultMap;
     }
 

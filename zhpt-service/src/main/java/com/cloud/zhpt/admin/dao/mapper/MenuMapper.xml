@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.MenuDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Menu">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="HREF" jdbcType="VARCHAR" property="href" />
+    <result column="TARGET" jdbcType="VARCHAR" property="target" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="PERMISSIONS" jdbcType="VARCHAR" property="permissions" />
+    <result column="SHIRO_PERMISSIONS" jdbcType="VARCHAR" property="shiroPermissions" />
+    <result column="IS_SHOW" jdbcType="DECIMAL" property="isShow" />
+    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+    <result column="SHORTCUT" jdbcType="DECIMAL" property="shortcut" />
+    <result column="SHORTCUT_ICON" jdbcType="VARCHAR" property="shortcutIcon" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, HREF, TARGET, ICON, PERMISSIONS, SHIRO_PERMISSIONS, IS_SHOW, SORT, SHORTCUT,
+    SHORTCUT_ICON, REMARK, CREATE_TIME, MODIFY_TIME, PARENT_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_menu
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Menu">
+      <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+          select NEXT_VAL('sys_menu')
+      </selectKey>
+      insert into sys_menu (ID, NAME, HREF,
+      TARGET, ICON, PERMISSIONS,
+      SHIRO_PERMISSIONS, IS_SHOW, SORT,
+      SHORTCUT, SHORTCUT_ICON, REMARK,
+      CREATE_TIME, MODIFY_TIME, PARENT_ID
+      )
+      values #{id}, #{name,jdbcType=VARCHAR}, #{href,jdbcType=VARCHAR},
+      #{target,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{permissions,jdbcType=VARCHAR},
+      #{shiroPermissions,jdbcType=VARCHAR}, #{isShow,jdbcType=DECIMAL}, #{sort,jdbcType=DECIMAL},
+      #{shortcut,jdbcType=DECIMAL}, #{shortcutIcon,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=DECIMAL}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Menu">
+      <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+          select NEXT_VAL('sys_menu')
+      </selectKey>
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        ID,
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="href != null">
+        HREF,
+      </if>
+      <if test="target != null">
+        TARGET,
+      </if>
+      <if test="icon != null">
+        ICON,
+      </if>
+      <if test="permissions != null">
+        PERMISSIONS,
+      </if>
+      <if test="shiroPermissions != null">
+        SHIRO_PERMISSIONS,
+      </if>
+      <if test="isShow != null">
+        IS_SHOW,
+      </if>
+      <if test="sort != null">
+        SORT,
+      </if>
+      <if test="shortcut != null">
+        SHORTCUT,
+      </if>
+      <if test="shortcutIcon != null">
+        SHORTCUT_ICON,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        #{id},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="permissions != null">
+        #{permissions,jdbcType=VARCHAR},
+      </if>
+      <if test="shiroPermissions != null">
+        #{shiroPermissions,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=DECIMAL},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="shortcut != null">
+        #{shortcut,jdbcType=DECIMAL},
+      </if>
+      <if test="shortcutIcon != null">
+        #{shortcutIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cloud.zhpt.admin.entity.Menu">
+    update sys_menu
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        HREF = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="target != null">
+        TARGET = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        ICON = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="permissions != null">
+        PERMISSIONS = #{permissions,jdbcType=VARCHAR},
+      </if>
+      <if test="shiroPermissions != null">
+        SHIRO_PERMISSIONS = #{shiroPermissions,jdbcType=VARCHAR},
+      </if>
+        <if test="IS_SHOW != null">
+        IS_SHOW = #{isShow,jdbcType=DECIMAL},
+      </if>
+      <if test="sort != null">
+        SORT = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="shortcut != null">
+        SHORTCUT = #{shortcut,jdbcType=DECIMAL},
+      </if>
+      <if test="shortcutIcon != null">
+        SHORTCUT_ICON = #{shortcutIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.cloud.zhpt.admin.entity.Menu">
+    update sys_menu
+    set NAME = #{name,jdbcType=VARCHAR},
+      HREF = #{href,jdbcType=VARCHAR},
+      TARGET = #{target,jdbcType=VARCHAR},
+      ICON = #{icon,jdbcType=VARCHAR},
+      PERMISSIONS = #{permissions,jdbcType=VARCHAR},
+      SHIRO_PERMISSIONS = #{shiroPermissions,jdbcType=VARCHAR},
+      IS_SHOW = #{isShow,jdbcType=DECIMAL},
+      SORT = #{sort,jdbcType=DECIMAL},
+      SHORTCUT = #{shortcut,jdbcType=DECIMAL},
+      SHORTCUT_ICON = #{shortcutIcon,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      PARENT_ID = #{parentId,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+
+    <resultMap extends="BaseResultMap" id="MenuResultMap" type="com.cloud.zhpt.admin.entity.Menu">
+    <result column="MENU_LEVEL" jdbcType="DECIMAL" property="menuLevel" />
+    <result column="LEAF" jdbcType="DECIMAL" property="leaf" />
+    <result column="PATH_NAME" jdbcType="VARCHAR" property="pathName" />
+    <result column="PATH_ID" jdbcType="VARCHAR" property="pathId" />
+    <result column="ROOT_ID" jdbcType="DECIMAL" property="rootId" />
+    <result column="ROOT_NAME" jdbcType="VARCHAR" property="rootName" />
+    <result column="PARENT_NAME" jdbcType="VARCHAR" property="parentName" />
+    <result column="TREE_MENU_CHECKED" jdbcType="DECIMAL" property="treeMenuChecked" />
+  </resultMap>
+
+  <select id="listMenu" resultMap="MenuResultMap">
+        select a.* from SYS_MENU_VIEW a order by a.SORT asc
+    </select>
+
+  <select id="getMenuById" parameterType="java.lang.Integer" resultMap="MenuResultMap">
+        select a.* from SYS_MENU_VIEW a where a.ID = #{id}
+    </select>
+
+  <select id="listMenuByParentId" parameterType="java.lang.Integer" resultMap="MenuResultMap">
+        select a.* from SYS_MENU_VIEW a where a.PARENT_ID =  #{parentId} order by a.SORT
+    </select>
+
+  <select id="listMenuByParentIdAndUserId" resultMap="MenuResultMap">
+        select a.* from SYS_MENU_VIEW a where a.PARENT_ID =  #{parentId}
+        and a.ID in (
+        select DISTINCT rm.MENU_ID from SYS_ROLE_MENU rm
+        where rm.ROLE_ID in
+        (select ur.ROLE_ID from SYS_USER_ROLE ur where ur.USER_ID=#{userId})
+        ) and a.IS_SHOW = 1
+        order by a.SORT
+    </select>
+
+  <select id="listTreeMenuByParentId" parameterType="java.lang.Integer" resultMap="MenuResultMap">
+        select m.* from SYS_MENU_VIEW m start with m.ID = #{parentId} connect by m.PARENT_ID = PRIOR m.ID order by m.SORT asc
+    </select>
+
+    <update id="updateIS_SHOWBatch">
+        update SYS_MENU set IS_SHOW=#{IS_SHOW} where ID in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+
+  <select id="getMaxSort" resultType="java.lang.Integer">
+    select MAX(a.SORT) SORT from SYS_MENU_VIEW a
+    where a.MENU_LEVEL = #{level}
+    <if test="parentId != null">
+      and a.PARENT_ID = #{parentId}
+    </if>
+  </select>
+
+  <select id="listTreeMenuByRoleId" resultMap="MenuResultMap">
+        select a.*,case when b.MENU_ID is not null then 1 else 0 end as TREE_MENU_CHECKED
+        from SYS_MENU_VIEW a
+        left join (select * from SYS_ROLE_MENU where ROLE_ID = #{roleId}) b on (b.MENU_ID=a.ID)
+        order by a.sort asc
+    </select>
+
+  <select id="listMenuTopLevelByUserId" parameterType="java.lang.Integer" resultMap="MenuResultMap">
+        select m.* from SYS_MENU_VIEW m where m.PARENT_ID is null
+        and m.ID in (
+        select DISTINCT rm.MENU_ID from SYS_ROLE_MENU rm
+        where rm.ROLE_ID in
+        (select ur.ROLE_ID from SYS_USER_ROLE ur where ur.USER_ID=#{userId})
+        ) and m.IS_SHOW =1 order by m.SORT asc
+    </select>
+
+  <delete id="deleteRoleMenuByMenuId" parameterType="java.lang.Integer">
+        delete from SYS_ROLE_MENU
+        where MENU_ID = #{menuId}
+    </delete>
+
+  <select id="getLeafMenuByRootIdAndUserId" resultMap="MenuResultMap">
+        select * from (
+        select * from SYS_MENU_VIEW where ROOT_ID=#{rootId} and LEAF=1
+        and ID in(
+        select DISTINCT rm.MENU_ID from SYS_ROLE_MENU rm
+        where rm.ROLE_ID in
+        (select ur.ROLE_ID from SYS_USER_ROLE ur where ur.USER_ID=#{userId})
+        ) and IS_SHOW = 1
+        order by SORT
+        ) where ROWNUM=1
+    </select>
+
+  <select id="listLeafMenuByLoginName" resultMap="MenuResultMap">
+        select * from SYS_MENU_VIEW where  LEAF=1
+        and ID in(
+        select DISTINCT rm.MENU_ID from SYS_ROLE_MENU rm
+        where rm.ROLE_ID in
+        (select ur.ROLE_ID from SYS_USER_ROLE ur inner join SYS_USER u on(ur.USER_ID = u.ID) where u.LOGIN_NAME=#{loginName})
+        ) and IS_SHOW = 1
+        order by sort
+    </select>
+
+  <select id="listShortcutMenuByUserId" parameterType="java.lang.Integer" resultMap="MenuResultMap">
+        select a.* from SYS_MENU_VIEW a where a.LEAF=1 and a.SHORTCUT=1 and a.IS_SHOW = 1
+        and a.ID in(
+            select DISTINCT b.MENU_ID from SYS_ROLE_MENU b
+            where b.ROLE_ID in (select c.ROLE_ID from SYS_USER_ROLE c where c.USER_ID=#{userId})
+        )
+    </select>
+
+  <select id="listMenuByUserId" parameterType="java.lang.Integer" resultMap="MenuResultMap">
+        select a.* from SYS_MENU_VIEW a where
+        a.ID in(
+            select DISTINCT b.MENU_ID from SYS_ROLE_MENU b
+            where b.ROLE_ID in (select c.ROLE_ID from SYS_USER_ROLE c where c.USER_ID=#{userId})
+        ) and a.IS_SHOW = 1
+    </select>
+</mapper>

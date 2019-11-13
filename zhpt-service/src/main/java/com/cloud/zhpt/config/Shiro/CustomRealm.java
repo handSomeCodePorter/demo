@@ -1,10 +1,9 @@
 package com.cloud.zhpt.config.Shiro;
 
-import com.cloud.zhpt.Service.MenuService;
-import com.cloud.zhpt.Service.UserService;
-import com.cloud.zhpt.controller.LoginController;
-import com.cloud.zhpt.entity.User;
-import org.apache.commons.lang.StringUtils;
+import com.cloud.zhpt.admin.Service.MenuService;
+import com.cloud.zhpt.admin.Service.UserService;
+import com.cloud.zhpt.admin.controller.LoginController;
+import com.cloud.zhpt.admin.entity.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -13,7 +12,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 
 /**

@@ -14,7 +14,7 @@ import java.io.IOException;
  * @Author SW
  * @Date 2019/10/14 12:16
  **/
-@Component
+
 public class HttpServletRequestWrapperFilter implements Filter {
 
 

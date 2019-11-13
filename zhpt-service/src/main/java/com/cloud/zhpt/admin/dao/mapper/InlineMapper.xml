@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.zhpt.admin.dao.InlineDao">
+    <resultMap id="BaseResultMap" type="com.cloud.zhpt.admin.entity.Inline">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-04 10:40:42
+        -->
+        <result column="USER_ID" jdbcType="DECIMAL" property="userId"/>
+        <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>
+        <result column="HEARTBEAT" jdbcType="TIMESTAMP" property="heartbeat"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.cloud.zhpt.admin.entity.Inline">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-04 10:40:42
+        -->
+        insert into SYS_INLINE (USER_ID, LOGIN_NAME, HEARTBEAT
+        )
+        values (#{userId,jdbcType=DECIMAL}, #{loginName,jdbcType=VARCHAR}, #{heartbeat,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.cloud.zhpt.admin.entity.Inline">
+        <!--
+          WARNING - @mbg.generated
+          该元素由 MyBatis Generator 自动生成，请不要随意修改。
+          生成时间 2018-01-04 10:40:42
+        -->
+        insert into SYS_INLINE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="loginName != null">
+                LOGIN_NAME,
+            </if>
+            <if test="heartbeat != null">
+                HEARTBEAT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=DECIMAL},
+            </if>
+            <if test="loginName != null">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="heartbeat != null">
+                #{heartbeat,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <update id="updateHeartbeat" parameterType="com.cloud.zhpt.admin.entity.Inline">
+        update SYS_INLINE
+        set HEARTBEAT = #{heartbeat},LOGIN_NAME=#{loginName}
+        where USER_ID=#{userId}
+    </update>
+
+    <select id="getInlineByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select a.* from SYS_INLINE a where a.USER_ID=#{userId}
+    </select>
+</mapper>
