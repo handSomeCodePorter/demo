@@ -56,38 +56,23 @@ public class EMailService {
         if (!is_offer) {
             throw new CustomRunTimeException(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), "服务器发送邮件繁忙，请稍后再试");
         }
-        QUEUE_IS_RUN = true;
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                long timeStamp = System.currentTimeMillis();
-                while (QUEUE_IS_RUN) {
-                    try {
-                        long time_out = timeStamp + TIMEOUT_INTERVAL;
-                        if (System.currentTimeMillis() > time_out) {
-                            logger.info("sendEmail: 线程超时退出……");
-                            QUEUE_IS_RUN = false;
-                            break;
-                        }
-                        if (RedisCacheUtils.lGetQueueSize(QUEUE_NAME) == 0) {//如果队列为空则线程休眠一秒
-                            Thread.sleep(1000);
-                            continue;
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                while (RedisCacheUtils.lGetQueueSize(QUEUE_NAME) > 0) {
                     EmailRecord mail = JSON.parseObject((byte[]) RedisCacheUtils.lRightPop(QUEUE_NAME, 1), EmailRecord.class);
-                    timeStamp = System.currentTimeMillis();
                     String[] tosArr = mail.getAddress().split(";");
                     ArrayList<String> tos = CollUtil.newArrayList(tosArr);
                     int send_status = CommonState.YES; //发送状态
                     try {
+                        logger.info("sendEmail: 发送至邮箱：" + mail.getAddress());
                         //发送邮件
                         MailUtil.send(tos, mail.getTitle(), mail.getContent(), true);
-                        logger.info("sendEmail: 发送至邮箱：" + mail.getAddress());
+                        logger.info("sendEmail: " + mail.getAddress() + "发送成功");
                     } catch (Exception e) {
-                        e.printStackTrace();
                         send_status = CommonState.NO;
+                        RedisCacheUtils.lLeftPush(QUEUE_NAME, JSON.toJSONBytes(mail)); //发送异常则继续发送
+                        e.printStackTrace();
                     } finally {
                         mail.setSendStatus(send_status);
                         //保存到数据库

@@ -39,6 +39,10 @@ public class HttpResult<T> implements Serializable {
         this.data = data;
     }
 
+    public HttpResult() {
+
+    }
+
     public String getStatus() {
         return status;
     }
