@@ -38,9 +38,9 @@ public class EMailService {
     private static final String QUEUE_NAME = "MAIL_QUEUE";
 
     /**
-     * 邮件队列是否运行
+     * 邮件失败重复发送次数
      */
-    private boolean QUEUE_IS_RUN = false;
+    private static final  int SEND_COUNT = 6;
 
     /**
      * 邮件超时间隔
@@ -49,6 +49,7 @@ public class EMailService {
 
     @Transactional
     public void sendEmail(EmailRecord record) throws InterruptedException, CustomRunTimeException {
+        record.setSendCount(0);
         logger.info("sendEmail: 邮箱放入队列……");
         //放入队列
         boolean is_offer = RedisCacheUtils.lLeftPush(QUEUE_NAME, JSON.toJSONBytes(record));
@@ -63,20 +64,25 @@ public class EMailService {
                     EmailRecord mail = JSON.parseObject((byte[]) RedisCacheUtils.lRightPop(QUEUE_NAME, 1), EmailRecord.class);
                     String[] tosArr = mail.getAddress().split(";");
                     ArrayList<String> tos = CollUtil.newArrayList(tosArr);
-                    int send_status = CommonState.YES; //发送状态
                     try {
                         logger.info("sendEmail: 发送至邮箱：" + mail.getAddress());
                         //发送邮件
                         MailUtil.send(tos, mail.getTitle(), mail.getContent(), true);
                         logger.info("sendEmail: " + mail.getAddress() + "发送成功");
-                    } catch (Exception e) {
-                        send_status = CommonState.NO;
-                        RedisCacheUtils.lLeftPush(QUEUE_NAME, JSON.toJSONBytes(mail)); //发送异常则继续发送
-                        e.printStackTrace();
-                    } finally {
-                        mail.setSendStatus(send_status);
+                        mail.setSendStatus(CommonState.YES);
                         //保存到数据库
                         emailRecordDao.insertSelective(mail);
+                    } catch (Exception e) {
+                        if(mail.getSendCount() <=  SEND_COUNT){ //重新发送
+                            mail.setSendCount(mail.getSendCount() + 1);
+                            RedisCacheUtils.lLeftPush(QUEUE_NAME, JSON.toJSONBytes(mail)); //小于限定发送次数则继续发送
+                        }else{ //保存到数据库
+                            mail.setSendStatus(CommonState.NO);
+                            //保存到数据库
+                            emailRecordDao.insertSelective(mail);
+                        }
+                        e.printStackTrace();
+                    } finally {
                         try {
                             Thread.sleep(1000); //发送一个邮件休息1秒，防止发送过快，导致主油箱被锁定
                         } catch (InterruptedException e) {

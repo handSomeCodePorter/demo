@@ -11,9 +11,11 @@
     <result column="RECEIVE_TIME" jdbcType="TIMESTAMP" property="receiveTime" />
     <result column="MAIL_TYPE" jdbcType="INTEGER" property="mailType" />
     <result column="SEND_STATUS" jdbcType="INTEGER" property="sendStatus" />
+    <result column="SEND_COUNT" jdbcType="INTEGER" property="sendCount" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, TITLE, CONTENT, SENDER, SEND_TIME, ADDRESS, RECEIVE_TIME, MAIL_TYPE, SEND_STATUS
+    ID, TITLE, CONTENT, SENDER, SEND_TIME, ADDRESS, RECEIVE_TIME, MAIL_TYPE, SEND_STATUS,
+    SEND_COUNT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -31,12 +33,12 @@
     </selectKey>
     insert into email_record (ID, TITLE, CONTENT,
       SENDER, SEND_TIME, ADDRESS,
-      RECEIVE_TIME, MAIL_TYPE, SEND_STATUS
-      )
+      RECEIVE_TIME, MAIL_TYPE, SEND_STATUS,
+      SEND_COUNT)
     values (#{id,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
       #{sender,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR},
-      #{receiveTime,jdbcType=TIMESTAMP}, #{mailType,jdbcType=INTEGER}, #{sendStatus,jdbcType=INTEGER}
-      )
+      #{receiveTime,jdbcType=TIMESTAMP}, #{mailType,jdbcType=INTEGER}, #{sendStatus,jdbcType=INTEGER},
+      #{sendCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.cloud.zhpt.mail.entity.EmailRecord">
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
@@ -71,6 +73,9 @@
       <if test="sendStatus != null">
         SEND_STATUS,
       </if>
+      <if test="sendCount != null">
+        SEND_COUNT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -99,6 +104,9 @@
       </if>
       <if test="sendStatus != null">
         #{sendStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sendCount != null">
+        #{sendCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -129,6 +137,9 @@
       <if test="sendStatus != null">
         SEND_STATUS = #{sendStatus,jdbcType=INTEGER},
       </if>
+      <if test="sendCount != null">
+        SEND_COUNT = #{sendCount,jdbcType=INTEGER},
+      </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
@@ -141,7 +152,9 @@
       ADDRESS = #{address,jdbcType=VARCHAR},
       RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
       MAIL_TYPE = #{mailType,jdbcType=INTEGER},
-      SEND_STATUS = #{sendStatus,jdbcType=INTEGER}
+      SEND_STATUS = #{sendStatus,jdbcType=INTEGER},
+      SEND_COUNT = #{sendCount,jdbcType=INTEGER}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
+
 </mapper>

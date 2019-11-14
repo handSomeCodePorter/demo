@@ -54,11 +54,11 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.cloud.zhpt.mail.dao" targetProject="./zhpt-service/src/main/java">
         </javaClientGenerator>
         <!--生成对应表及类名-->
-
+<!--
         <table schema="zhpt" tableName="EMAIL_RECORD" mapperName="EmailRecordDao" modelType="flat" domainObjectName="EmailRecord" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="ignoreQualifiersAtRuntime" value="true"/>
-        </table>
+        </table>-->
 
     </context>
 </generatorConfiguration>

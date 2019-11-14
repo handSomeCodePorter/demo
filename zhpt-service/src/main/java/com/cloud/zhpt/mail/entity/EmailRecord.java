@@ -1,7 +1,7 @@
 /*
 *
 * EmailRecord.java
-* @date 2019-11-13
+* @date 2019-11-14
 */
 package com.cloud.zhpt.mail.entity;
 
@@ -52,6 +52,11 @@ public class EmailRecord {
      * 1成功、0 失败
      */
     private Integer sendStatus;
+
+    /**
+     * 发送次数
+     */
+    private Integer sendCount;
 
     /**
      * ID
@@ -195,5 +200,21 @@ public class EmailRecord {
      */
     public void setSendStatus(Integer sendStatus) {
         this.sendStatus = sendStatus;
+    }
+
+    /**
+     * 发送次数
+     * @return SEND_COUNT 发送次数
+     */
+    public Integer getSendCount() {
+        return sendCount;
+    }
+
+    /**
+     * 发送次数
+     * @param sendCount 发送次数
+     */
+    public void setSendCount(Integer sendCount) {
+        this.sendCount = sendCount;
     }
 }
