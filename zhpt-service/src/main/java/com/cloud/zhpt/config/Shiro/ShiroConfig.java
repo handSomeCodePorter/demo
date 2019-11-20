@@ -197,6 +197,7 @@ public class ShiroConfig {
     public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         advisorAutoProxyCreator.setProxyTargetClass(true);
+        advisorAutoProxyCreator.setUsePrefix(true);
         return advisorAutoProxyCreator;
     }
 

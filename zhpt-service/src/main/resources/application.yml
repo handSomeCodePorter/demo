@@ -8,6 +8,11 @@ spring:
       flush-mode: on_save
       namespace: zhpt
 
+  servlet:                     #限制上传文件大小
+      multipart:
+        max-file-size: 100MB
+        max-request-size: 500MB
+
   cloud:
     cros:
       allow-origin: 127.0.0.1,localhost
@@ -48,6 +53,7 @@ mybatis:
 logging:
   config: classpath:log4j2.xml
 
+###############################登录验证码验证开关###############################################
 login:
   captcha: false
 
