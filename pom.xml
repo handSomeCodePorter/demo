@@ -10,6 +10,7 @@
         <module>zhpt-Eureka</module>
         <module>zhpt-common</module>
         <module>zhpt-zuul</module>
+        <module>zhpt-crawler</module>
     </modules>
     <packaging>pom</packaging>
 
