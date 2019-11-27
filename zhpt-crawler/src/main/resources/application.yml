@@ -1,0 +1,26 @@
+##############################################################################
+spring:
+  application:
+    name: zhpt-crawler
+  servlet:                     #限制上传文件大小
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 500MB
+
+server:
+  port: 8082
+
+#################################################################################
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://128.160.185.140:8101/eureka
+
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+
+
+##############################################################################

@@ -166,7 +166,7 @@
       <if test="shiroPermissions != null">
         SHIRO_PERMISSIONS = #{shiroPermissions,jdbcType=VARCHAR},
       </if>
-        <if test="IS_SHOW != null">
+        <if test="isShow != null">
         IS_SHOW = #{isShow,jdbcType=DECIMAL},
       </if>
       <if test="sort != null">
@@ -247,11 +247,11 @@
     </select>
 
   <select id="listTreeMenuByParentId" parameterType="java.lang.Integer" resultMap="MenuResultMap">
-        select m.* from SYS_MENU_VIEW m start with m.ID = #{parentId} connect by m.PARENT_ID = PRIOR m.ID order by m.SORT asc
+        select m.* from SYS_MENU_VIEW m WHERE  m.PARENT_ID =  m.ID order by m.SORT asc
     </select>
 
-    <update id="updateIS_SHOWBatch">
-        update SYS_MENU set IS_SHOW=#{IS_SHOW} where ID in
+    <update id="updateShowBatch">
+        update SYS_MENU set IS_SHOW=#{isShow} where ID in
     <foreach collection="ids" item="id" open="(" close=")" separator=",">
       #{id}
     </foreach>
@@ -323,4 +323,7 @@
             where b.ROLE_ID in (select c.ROLE_ID from SYS_USER_ROLE c where c.USER_ID=#{userId})
         ) and a.IS_SHOW = 1
     </select>
+
+
+
 </mapper>

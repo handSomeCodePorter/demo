@@ -70,7 +70,7 @@ public class RoleController extends BaseController {
      * @param ids
      * @return HttpResult
      */
-    @RequiresPermissions("admin:role:manage")
+   /* @RequiresPermissions("admin:role:manage")*/
     @PostMapping("/deleteRoleBatch")
     public HttpResult deleteRoleBatch(Integer[] ids) {
         roleService.deleteRoleBatch(ids);

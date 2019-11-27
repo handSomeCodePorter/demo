@@ -96,7 +96,7 @@ public interface MenuDao {
      * @param
      * @param show
      */
-    void updateShowBatch(@Param("ids") Integer[] ids, @Param("show") Integer show);
+    void updateShowBatch(@Param("ids") Integer[] ids,Integer isShow);
 
     /**
      * 查询指定父级节点下最大排序号
