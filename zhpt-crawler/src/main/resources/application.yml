@@ -11,16 +11,16 @@ server:
   port: 8082
 
 #################################################################################
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://128.160.185.140:8101/eureka
-
-  instance:
-    instance-id: ${spring.application.name}:${server.port}
-    prefer-ip-address: true
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://128.160.185.140:8101/eureka
+#
+#  instance:
+#    instance-id: ${spring.application.name}:${server.port}
+#    prefer-ip-address: true
 
 
 ##############################################################################

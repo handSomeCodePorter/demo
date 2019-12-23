@@ -11,6 +11,7 @@
         <module>zhpt-common</module>
         <module>zhpt-zuul</module>
         <module>zhpt-crawler</module>
+        <module>zhpt-search</module>
     </modules>
     <packaging>pom</packaging>
 

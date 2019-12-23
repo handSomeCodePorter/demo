@@ -74,7 +74,9 @@ public class MenuService {
             for (int i = 0; i < listChildrenMenu.size(); i++) {
                 ids[i] = listChildrenMenu.get(i).getId();
             }
-            menuDao.updateShowBatch(ids, menu.getIsShow());
+            if(ids.length > 0){
+                menuDao.updateShowBatch(ids, menu.getIsShow());
+            }
         }
         //更新用户权限缓存
         RealmSecurityManager securityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
