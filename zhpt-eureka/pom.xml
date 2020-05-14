@@ -9,21 +9,64 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zhpt-eureka</artifactId>
-
+    <groupId>com.zhpt</groupId>
+    <artifactId>eureka</artifactId>
+    <version>1.0</version>
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <version>2.0.2.RELEASE</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>zhpt-eureka-server</finalName>
+        <finalName>eureka</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <!--将插件绑定在某个phase执行-->
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                  <!--  <serverId>docker-aliyun</serverId>-->
+                    <imageName>${project.artifactId}</imageName>
+                  <!--  <imageName>
+                        registry.cn-hangzhou.aliyuncs.com/namespace-docker/eureka-image/${project.artifactId}:${project.version}
+                    </imageName>-->
+
+                    <!--指定标签 这里指定的是镜像的版本，我们默认版本是latest-->
+                    <imageTags>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <forceTags>true</forceTags>
+                    <dockerHost>http://192.168.2.3:2375</dockerHost>
+                    <!-- 指定我们项目中Dockerfile文件的路径-->
+                    <dockerDirectory>${project.basedir}/src/main/resources</dockerDirectory>
+                    <baseImage>java</baseImage>
+                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
         </plugins>
     </build>

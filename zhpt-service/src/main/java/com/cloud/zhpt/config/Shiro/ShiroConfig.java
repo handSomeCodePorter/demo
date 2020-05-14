@@ -76,6 +76,9 @@ public class ShiroConfig {
         //开放登陆接口
         filterChainDefinitionMap.put("/login", "anon");
 
+        //开发测试接口
+        filterChainDefinitionMap.put("/test/**", "anon");
+
         filterChainDefinitionMap.put("/unAuth", "anon");
 
         filterChainDefinitionMap.put("/upload", "anon");

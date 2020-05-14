@@ -22,7 +22,6 @@ public class CommonExceptionHandler {
 
     protected final Logger logger = LoggerFactory.getLogger(CommonExceptionHandler.class);
 
-
     @ExceptionHandler(value = {CustomRunTimeException.class})
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> handleCustomException(CustomRunTimeException ex) {
